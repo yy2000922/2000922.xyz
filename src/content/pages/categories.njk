@@ -1,0 +1,24 @@
+---
+layout: layouts/base.njk
+title: 分类 | deepwhitex.dev
+permalink: /categories/
+---
+
+<h1 class="page-title">分类</h1>
+<p class="page-subtitle">按主题浏览所有内容。</p>
+
+<div class="clean-grid">
+    {% for category, posts in collections.categories %}
+    <div class="clean-card">
+        <h3>{{ category }}</h3>
+        <p style="margin-bottom: 20px; color: var(--text-secondary);">{{ posts.length }} 篇文章</p>
+        <div class="clean-list" style="border-top: none;">
+            {% for post in posts %}
+            <a href="{{ post.url }}" class="clean-item" style="padding: 10px 0; border-bottom: 1px dashed var(--accent-subtle);">
+                <span class="clean-item-title" style="font-size: 1rem;">{{ post.data.title }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>

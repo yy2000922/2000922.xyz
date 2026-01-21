@@ -1,0 +1,17 @@
+---
+layout: layouts/base.njk
+title: 记录 | deepwhitex.dev
+permalink: /records/
+---
+
+<h1 class="page-title">记录</h1>
+<p class="page-subtitle">关于技术、设计以及数字产品的思考片段。</p>
+
+<div class="clean-list">
+    {% for post in collections.posts %}
+    <a href="{{ post.url }}" class="clean-item">
+        <span class="clean-item-title">{{ post.data.title }}</span>
+        <span class="clean-item-meta">{{ post.date | readableDate }}</span>
+    </a>
+    {% endfor %}
+</div>

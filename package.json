@@ -1,0 +1,23 @@
+{
+  "name": "eleventy-sample",
+  "version": "1.0.0",
+  "description": "---\r title: Heading\r ---\r # {{ title }}",
+  "main": "index.js",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "debug": "DEBUG=* eleventy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "eleventy-plugin-china-mirror": "^1.0.3"
+  },
+  "devDependencies": {
+    "luxon": "^3.7.2"
+  }
+}

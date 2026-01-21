@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+title: 归档 | deepwhitex.dev
+permalink: /archive/
+---
+
+<h1 class="page-title">归档</h1>
+<p class="page-subtitle">时间长河中的所有足迹。</p>
+
+{% set currentYear = "" %}
+
+<div class="clean-list">
+    {% for post in collections.posts %}
+        {% set postYear = post.date | year %}
+        
+        {% if currentYear != postYear %}
+            {% set currentYear = postYear %}
+            <h2 style="margin-top: 40px; margin-bottom: 20px; font-size: 1.5rem; color: var(--text-secondary);">{{ currentYear }}</h2>
+        {% endif %}
+
+        <a href="{{ post.url }}" class="clean-item">
+            <span class="clean-item-title">{{ post.data.title }}</span>
+            <span class="clean-item-meta">{{ post.date | readableDate }}</span>
+        </a>
+    {% endfor %}
+</div>
