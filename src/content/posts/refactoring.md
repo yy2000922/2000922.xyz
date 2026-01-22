@@ -4,7 +4,6 @@ date: 2025-01-20
 tags: ["posts", "技术", "重构"]
 category: "学习"
 description: "探讨如何在代码和设计中做减法，保持系统的可维护性。"
-layout: layouts/base.njk
 ---
 
 在软件开发中，我们常常陷入“功能堆砌”的陷阱。

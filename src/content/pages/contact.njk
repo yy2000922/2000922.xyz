@@ -2,6 +2,7 @@
 layout: layouts/base.njk
 title: 联系我 | deepwhitex.dev
 permalink: /contact/
+status: limited # 在这里修改: open, busy, limited, closed
 ---
 
 <h1 class="page-title">联系我</h1>
@@ -10,24 +11,89 @@ permalink: /contact/
 <div style="max-width: 600px;">
     <div style="margin-bottom: 40px;">
         <h3 style="margin-bottom: 10px;">Email</h3>
-        <a href="mailto:hello@deepwhitex.dev" style="font-size: 1.2rem; color: var(--text-primary); text-decoration: none; border-bottom: 1px solid var(--text-primary);">hello@deepwhitex.dev</a>
+        <!-- Anti-crawler: Email injected via JS -->
+        <a id="contact-email-link" href="#" style="font-size: 1.2rem; color: var(--text-primary); text-decoration: none; border-bottom: 1px solid var(--text-primary);">
+            <span id="contact-email-text">Loading...</span>
+        </a>
         <p style="margin-top: 10px; color: var(--text-secondary);">通常在 24 小时内回复。</p>
+    </div>
+
+    <div style="margin-bottom: 40px;">
+        <h3 style="margin-bottom: 10px;">即时通讯</h3>
+        <div style="display: flex; flex-direction: column; gap: 15px; font-size: 1rem;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-weight: 500; min-width: 50px;">微信</span>
+                <span id="contact-wechat" style="color: var(--text-secondary);">Loading...</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-weight: 500; min-width: 50px;">QQ</span>
+                <span id="contact-qq" style="color: var(--text-secondary);">Loading...</span>
+            </div>
+        </div>
     </div>
 
     <div style="margin-bottom: 40px;">
         <h3 style="margin-bottom: 10px;">Social</h3>
         <div style="display: flex; flex-direction: column; gap: 15px;">
-            <a href="#" style="color: var(--text-primary); text-decoration: none;">Twitter / X -></a>
-            <a href="#" style="color: var(--text-primary); text-decoration: none;">GitHub -></a>
-            <a href="#" style="color: var(--text-primary); text-decoration: none;">LinkedIn -></a>
+           <a href="#" style="color: var(--text-primary); text-decoration: none;">Twitter / X -></a>
+           <a href="#" style="color: var(--text-primary); text-decoration: none;">GitHub -></a>
+          <a href="#" style="color: var(--text-primary); text-decoration: none;">LinkedIn -></a>
         </div>
     </div>
 
     <div style="padding: 30px; background: #fafafa; border-radius: 8px;">
         <h3 style="margin-bottom: 10px;">工作状态</h3>
+        
+        {% if status == 'open' %}
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 10px; height: 10px; background: #4caf50; border-radius: 50%; box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);"></div>
+            <span>目前接受新项目委托</span>
+        </div>
+        {% elif status == 'busy' %}
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 10px; height: 10px; background: #f44336; border-radius: 50%; box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);"></div>
+            <span>目前项目已满，暂不接受新委托</span>
+        </div>
+        {% elif status == 'limited' %}
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 10px; height: 10px; background: #ff9800; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);"></div>
+            <span>接受预订，排期较满</span>
+        </div>
+        {% elif status == 'closed' %}
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 10px; height: 10px; background: #9e9e9e; border-radius: 50%; box-shadow: 0 0 0 2px rgba(158, 158, 158, 0.2);"></div>
+            <span>暂停接单 / 休息中</span>
+        </div>
+        {% else %}
         <div style="display: flex; align-items: center; gap: 10px;">
             <div style="width: 10px; height: 10px; background: #4caf50; border-radius: 50%;"></div>
             <span>目前接受新项目委托</span>
         </div>
+        {% endif %}
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Simple obfuscation to prevent basic scrapers
+        // 简单的混淆以防止基本爬虫
+        const e_u = 'deepwhite86';
+        const e_d = 'outlook.com';
+        const email = e_u + '@' + e_d;
+        
+        const el = document.getElementById('contact-email-link');
+        const et = document.getElementById('contact-email-text');
+        if(el && et) {
+            el.href = 'mailto:' + email;
+            et.innerText = email;
+        }
+
+        const wc = 'deepwhite_me';
+        const wcEl = document.getElementById('contact-wechat');
+        if(wcEl) wcEl.innerText = wc;
+
+        const qq = '1703452231';
+        const qqEl = document.getElementById('contact-qq');
+        if(qqEl) qqEl.innerText = qq;
+    });
+</script>

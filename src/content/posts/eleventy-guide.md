@@ -4,7 +4,6 @@ date: 2024-11-10
 tags: ["posts", "技术", "Eleventy"]
 category: "项目"
 description: "使用 Eleventy 构建高性能个人网站的经验总结。"
-layout: layouts/base.njk
 ---
 
 Eleventy 是一个简单而强大的静态站点生成器。

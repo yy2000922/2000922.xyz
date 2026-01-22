@@ -18,6 +18,7 @@
     "eleventy-plugin-china-mirror": "^1.0.3"
   },
   "devDependencies": {
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
     "luxon": "^3.7.2"
   }
 }

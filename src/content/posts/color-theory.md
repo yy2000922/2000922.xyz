@@ -4,7 +4,6 @@ date: 2024-12-28
 tags: ["posts", "设计", "色彩"]
 category: "读书"
 description: "读《色彩互动学》有感，如何在 UI 设计中构建和谐的色彩系统。"
-layout: layouts/base.njk
 ---
 
 色彩不仅仅是装饰，它是传递信息和情绪的重要媒介。

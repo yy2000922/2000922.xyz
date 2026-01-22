@@ -4,7 +4,6 @@ date: 2025-01-15
 tags: ["posts", "技术", "WebGPU"]
 category: "学习"
 description: "WebGPU 正在开启 Web 图形渲染的新时代，本文是对其核心概念的初步探索。"
-layout: layouts/base.njk
 ---
 
 WebGPU 是下一代 Web 图形 API，旨在释放现代 GPU 的全部潜能。

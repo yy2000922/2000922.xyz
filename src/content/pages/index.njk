@@ -4,67 +4,99 @@ title: 首页 | deepwhitex.dev
 permalink: /
 ---
 
-<section style="margin-bottom: 80px;">
-    <h1 style="font-size: 3rem; margin-bottom: 15px; font-weight: 400; letter-spacing: -1px; line-height: 1.2;">
-        建立一个属于自己的记录网站
+<section class="hero-section">
+    <h1 class="hero-title">
+        建立一个属于自己的记录站
     </h1>
-    <p style="font-size: 1.8rem; margin-bottom: 25px; color: var(--text-secondary); font-weight: 300; letter-spacing: -0.5px;">
-        安静、稳定，适合长期使用。
+    <p class="hero-subtitle">
+        稳定、清晰、可长期维护的个人内容仓库
     </p>
-    <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; line-height: 1.8;">
-        用清晰的结构记录学习、阅读与想法，<br>
-        不依赖平台，也不被信息流打断。
+    <p class="hero-description">
+        记录学习、阅读与项目进展，并能按时间、标签与分类快速回溯。<br>
+        不依赖平台，不被信息流打断。
     </p>
 </section>
 
-<section style="margin-bottom: 80px;">
-    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; border-bottom: 1px solid var(--accent-subtle); padding-bottom: 10px;">
-        <h2 style="font-size: 1.2rem; font-weight: 500;">功能展示</h2>
+<section class="section-block">
+    <div class="section-header">
+        <h2 class="section-title">适合谁</h2>
     </div>
-    <div class="clean-grid" style="margin-top: 0; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-        <div class="clean-card">
-            <a href="/records/" style="text-decoration: none; color: inherit; display: block; height: 100%;">
-                <h3>记录 (Records)</h3>
-                <p>用于持续记录学习、阅读与日常想法。按时间或主题整理，方便回顾。</p>
-            </a>
+    <div class="who-for-grid">
+        <div class="who-for-item">
+            <i class="fa-solid fa-check who-for-icon"></i>
+            <div>
+                <h3 class="who-for-title">希望长期记录的人</h3>
+                <p class="who-for-desc">写作、阅读、学习、项目进展</p>
+            </div>
         </div>
-        <div class="clean-card">
-            <a href="/categories/" style="text-decoration: none; color: inherit; display: block; height: 100%;">
-                <h3>分类 (Categories)</h3>
-                <p>将记录按主题归类，例如学习、读书、项目等，结构清晰。</p>
-            </a>
+        <div class="who-for-item">
+            <i class="fa-solid fa-check who-for-icon"></i>
+            <div>
+                <h3 class="who-for-title">需要“自己的空间”</h3>
+                <p class="who-for-desc">独立于公众号或平台的内容资产</p>
+            </div>
         </div>
-        <div class="clean-card">
-            <a href="/tags/" style="text-decoration: none; color: inherit; display: block; height: 100%;">
-                <h3>标签 (Tags)</h3>
-                <p>用于标注更细粒度的关键词，帮助快速查找相关内容。</p>
-            </a>
+        <div class="who-for-item">
+            <i class="fa-solid fa-check who-for-icon"></i>
+            <div>
+                <h3 class="who-for-title">想要省心但不将就</h3>
+                <p class="who-for-desc">不折腾技术，也不满足于模板博客</p>
+            </div>
         </div>
-        <div class="clean-card">
-            <a href="/archive/" style="text-decoration: none; color: inherit; display: block; height: 100%;">
-                <h3>归档 (Archive)</h3>
-                <p>按时间整理全部内容，适合长期积累与回溯。</p>
-            </a>
-        </div>
-        <div class="clean-card" style="display: flex; align-items: center; justify-content: center; background-color: transparent; border: 1px dashed var(--accent-subtle);">
-            <p style="text-align: center; color: var(--text-secondary);">更多...</p>
+        <div class="who-for-item">
+            <i class="fa-solid fa-check who-for-icon"></i>
+            <div>
+                <h3 class="who-for-title">重视稳定与可控</h3>
+                <p class="who-for-desc">结构清晰、长期可维护</p>
+            </div>
         </div>
     </div>
 </section>
 
-<section>
-    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; border-bottom: 1px solid var(--accent-subtle); padding-bottom: 10px;">
-        <h2 style="font-size: 1.2rem; font-weight: 500;">精选示例</h2>
-        <a href="/examples/" style="font-size: 0.9rem; color: var(--text-secondary); text-decoration: none;">查看全部 -></a>
+<section class="section-block">
+    <div class="section-header">
+        <h2 class="section-title">你可以做什么</h2>
     </div>
-    <div class="clean-grid" style="margin-top: 0; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-        <div class="clean-card">
-            <h3>SaaS Dashboard</h3>
-            <p>基于 React 与 D3.js 的高性能数据可视化面板，专注于信息的清晰呈现。</p>
+    <div class="features-grid">
+        <div>
+            <a href="/records/" class="feature-item-link">
+                <h3 class="feature-title">记录 (Records)</h3>
+                <p class="feature-desc">持续记录学习、阅读与思考，保留关键结论与链接。</p>
+            </a>
         </div>
-        <div class="clean-card">
-            <h3>E-Commerce Core</h3>
-            <p>高并发电商核心交易系统的架构设计与实现，确保稳定与扩展性。</p>
+        <div>
+            <a href="/categories/" class="feature-item-link">
+                <h3 class="feature-title">分类 (Categories)</h3>
+                <p class="feature-desc">按主题整理内容，形成清晰的长期知识结构。</p>
+            </a>
+        </div>
+        <div>
+            <a href="/tags/" class="feature-item-link">
+                <h3 class="feature-title">标签 (Tags)</h3>
+                <p class="feature-desc">用关键词做精细索引，便于快速检索与复盘。</p>
+            </a>
+        </div>
+        <div>
+            <a href="/archive/" class="feature-item-link">
+                <h3 class="feature-title">归档 (Archive)</h3>
+                <p class="feature-desc">按时间线查看全部内容，回溯长期积累。</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section-block closing-block">
+    <div class="closing-layout">
+        <div class="closing-header">
+            <h2 class="closing-label">写作与发布</h2>
+            <p class="closing-headline">像写笔记一样写博客<br>而不是像部署项目一样发布</p>
+        </div>
+        <div class="closing-content">
+            <p class="closing-desc">在浏览器中完成写作与发布，内容仍然直接提交到你的 GitHub 仓库。无需打开终端，写完即发布，专注于内容本身。</p>
+            <a class="closing-link" href="/content/posts/像写笔记一样写博客/">
+                <span>阅读指南</span>
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
         </div>
     </div>
 </section>

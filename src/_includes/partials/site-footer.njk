@@ -1,0 +1,12 @@
+<footer>
+    <div class="footer-logo">{{ metadata.title }}</div>
+    <div class="socials">
+        {% for social in metadata.socials %}
+        <a href="{{ social.url }}" class="hover-trigger">{{ social.name }}</a>
+        {% endfor %}
+    </div>
+    <p class="footer-meta">
+        BUILT WITH ELEVENTY & LOVE<br>
+        &copy; {{ page.date | year }} {{ metadata.title }}
+    </p>
+</footer>

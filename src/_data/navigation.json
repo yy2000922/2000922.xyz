@@ -1,7 +1,7 @@
 [
   { "text": "首页", "url": "/" },
   { "text": "记录", "url": "/records/" },
-  { "text": "归档", "url": "/archive/" },
+  { "text": "动态", "url": "/updates/" },
   { "text": "服务说明", "url": "/services/" },
   { "text": "联系我", "url": "/contact/" }
 ]
