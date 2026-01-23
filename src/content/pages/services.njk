@@ -2,56 +2,117 @@
 layout: layouts/base.njk
 title: 服务说明 | deepwhitex.dev
 permalink: /services/
+pageStyles:
+  - /assets/css/pages/services.css
 ---
 
-<h1 class="page-title">服务说明</h1>
-<p class="page-subtitle">我可以协助你构建什么？</p>
 
-<div class="clean-grid" style="grid-template-columns: 1fr;">
-    <div class="clean-card" style="display: flex; flex-direction: column; gap: 10px;">
-        <h3>网站的搭建与初始配置服务</h3>
-        <p>可长期使用的个人记录网站，适合用于长期保存学习、阅读、思考与日常记录。</p>
-        <ul style="margin-top: 10px; padding-left: 20px; color: var(--text-secondary);">
-            <li>整体搭建与部署</li>
-            <li>基础页面结构配置（记录页、归档页、搜索）</li>
-            <li>初始示例内容与使用说明</li>
-        </ul>
+
+<div class="services-page-container">
+    <header class="services-header">
+        <div class="services-title-wrapper">
+            <h1>Services.</h1>
+            <div class="services-subtitle-bg">我可以为您做什么</div>
+        </div>
+        <div class="services-header-meta">
+            <p>基于设计思维与工程实践<br>为您构建数字产品</p>
+        </div>
+    </header>
+
+    <div class="services-list">
+        <!-- Item 01 -->
+        <article class="service-item">
+            <div class="service-content-grid">
+                <div class="service-meta">
+                    <span class="service-number">01</span>
+                </div>
+                <h3 class="service-title">网站的搭建与初始配置服务</h3>
+                <div class="service-desc-wrapper">
+                    <p class="service-desc">可长期使用的个人记录网站，适合用于长期保存学习、阅读、思考与日常记录。</p>
+                    <ul class="service-list-items">
+                        <li>整体搭建与部署</li>
+                        <li>基础页面结构配置</li>
+                        <li>初始示例内容与使用说明</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        <!-- Item 02 -->
+        <article class="service-item">
+            <div class="service-content-grid">
+                <div class="service-meta">
+                    <span class="service-number">02</span>
+                </div>
+                <h2 class="service-title">网站设计与构建</h2>
+                <div class="service-desc-wrapper">
+                    <p class="service-desc">网站设计不仅仅是代码实现，而是将需求、结构与视觉呈现整合为稳定、可用的线上形态。</p>
+                    <ul class="service-list-items">
+                        <li>提供网站设计与构建服务</li>
+                        <li>涵盖页面结构设计、视觉呈现</li>
+                        <li>确保性能、可维护性与视觉效果的平衡</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        <!-- Item 03 -->
+        <article class="service-item">
+            <div class="service-content-grid">
+                <div class="service-meta">
+                    <span class="service-number">03</span>
+                </div>
+                <h2 class="service-title">技术咨询与优化</h2>
+                <div class="service-desc-wrapper">
+                    <p class="service-desc">当你的项目遇到报错或架构难题时，我提供专业的诊断与解决方案。</p>
+                    <ul class="service-list-items">
+                        <li>前端性能优化 (Core Web Vitals)</li>
+                        <li>代码审查与重构</li>
+                        <li>技术选型建议</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        <!-- Item 04 -->
+        <article class="service-item">
+            <div class="service-content-grid">
+                <div class="service-meta">
+                    <span class="service-number">04</span>
+                </div>
+                <h2 class="service-title">技术方案说明</h2>
+                <div class="service-desc-wrapper">
+                    <p class="service-desc">支持主流静态网站构建方案，包括 Hexo、Hugo、Eleventy（11ty） 等。</p>
+                    <ul class="service-list-items">
+                        <li>支持 GitHub Pages 部署</li>
+                        <li>默认推荐使用 Eleventy（11ty）</li>
+                        <li><a href="/content/posts/为什么这样选择/">为什么这样选择</a></li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        <!-- Item 05 -->
+        <article class="service-item">
+            <div class="service-content-grid">
+                <div class="service-meta">
+                    <span class="service-number">05</span>
+                </div>
+                <h3 class="service-title">其他/更多</h3>
+                <div class="service-desc-wrapper">
+                    <p class="service-desc">如果您有其他特定的需求或想法，欢迎随时与我沟通。我乐于探索新的可能性，为您提供定制化的解决方案。</p>
+                    <ul class="service-list-items">
+                        <li>定制化功能开发</li>
+                        <li>长期维护与支持</li>
+                        <li>跨平台适配与集成</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
     </div>
 
-    <div class="clean-card" style="display: flex; flex-direction: column; gap: 10px;">
-        <h3>网站设计与构建</h3>
-        <p>网站设计不仅仅是代码实现，而是将需求、结构与视觉呈现整合为稳定、可用的线上形态。</p>
-        <ul style="margin-top: 10px; padding-left: 20px; color: var(--text-secondary);">
-            <li>提供网站设计与构建服务</li>
-            <li>涵盖页面结构设计、视觉呈现、前端实现及部署上线。</li>
-            <li>确保网站在性能、可维护性与视觉效果之间取得平衡。</li>
-        </ul>
-    </div>
-
-    <div class="clean-card" style="display: flex; flex-direction: column; gap: 10px;">
-        <h3>技术咨询与优化</h3>
-        <p>当你的项目遇到报错或架构难题时，我提供专业的诊断与解决方案。</p>
-        <ul style="margin-top: 10px; padding-left: 20px; color: var(--text-secondary);">
-            <li>前端性能优化 (Core Web Vitals)</li>
-            <li>代码审查与重构</li>
-            <li>技术选型建议</li>
-        </ul>
-    </div>
-
-      <div class="clean-card" style="display: flex; flex-direction: column; gap: 10px;">
-        <h3>技术方案说明</h3>
-        <p>支持主流静态网站构建方案，包括 Hexo、Hugo、Eleventy（11ty） 等。</p>
-        <ul style="margin-top: 10px; padding-left: 20px; color: var(--text-secondary);">
-            <li>凡可部署于 GitHub Pages 的静态站点，均可作为项目实现方案。</li>
-            <li>默认推荐使用 Eleventy（11ty）。</li>
-            <li><a href="/content/posts/为什么这样选择/" style="color: inherit; text-decoration: underline;">为什么这样选择</a></li>
-        </ul>
-    </div>
-
-
-</div>
-
-<div style="margin-top: 60px; text-align: center;">
-    <h3 style="margin-bottom: 20px;">准备好开始了吗？</h3>
-    <a href="/contact/" style="display: inline-block; padding: 12px 30px; background: var(--text-primary); color: #fff; text-decoration: none; border-radius: 4px; font-weight: 500;">联系我商讨方案</a>
+    <section class="cta-section">
+        <h3 class="cta-title">Ready to start?</h3>
+        <a href="/contact/" class="cta-link">联系我商讨方案 -></a>
+    </section>
 </div>
