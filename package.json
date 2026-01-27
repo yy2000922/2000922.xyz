@@ -1,5 +1,5 @@
 {
-  "name": "deepwhite-dev",
+  "name": "deepwhitex-dev",
   "version": "1.0.0",
   "description": "---\r title: Heading\r ---\r # {{ title }}",
   "main": "index.js",
@@ -14,8 +14,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@11ty/eleventy": "^3.1.2",
-    "eleventy-plugin-china-mirror": "^1.0.3"
+    "@11ty/eleventy": "^3.1.2"
   },
   "devDependencies": {
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
