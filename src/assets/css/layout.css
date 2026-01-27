@@ -81,10 +81,125 @@ footer {
     color: var(--text-primary);
 }
 
+/* Hamburger Menu Button */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 24px;
+    position: relative;
+    z-index: 102; /* Above sidebar */
+}
+
+.hamburger-box {
+    width: 30px;
+    height: 24px;
+    display: inline-block;
+    position: relative;
+}
+
+.hamburger-inner {
+    display: block;
+    top: 50%;
+    margin-top: -2px;
+}
+
+.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+    width: 30px;
+    height: 2px;
+    background-color: var(--text-primary);
+    border-radius: 2px;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
+}
+
+.hamburger-inner::before, .hamburger-inner::after {
+    content: "";
+    display: block;
+}
+
+.hamburger-inner::before {
+    top: -8px;
+}
+
+.hamburger-inner::after {
+    bottom: -8px;
+}
+
+/* Active State for Hamburger */
+.menu-toggle.is-active .hamburger-inner {
+    transform: rotate(45deg);
+}
+
+.menu-toggle.is-active .hamburger-inner::before {
+    top: 0;
+    opacity: 0;
+}
+
+.menu-toggle.is-active .hamburger-inner::after {
+    bottom: 0;
+    transform: rotate(-90deg);
+}
+
+/* Menu Overlay */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 90;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-overlay.is-active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 @media (max-width: 768px) {
     .site-nav { padding: 20px; }
     main { padding: 100px 20px 40px; }
-    .menu-links { display: none; }
+    
+    .menu-toggle {
+        display: block;
+    }
+
+    .menu-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%; /* Hidden by default */
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: var(--bg-color, #fcfcfc);
+        padding: 80px 30px;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        transition: right 0.3s ease;
+        z-index: 100;
+        gap: 20px;
+    }
+
+    .menu-links.is-active {
+        right: 0;
+    }
+    
+    .menu-overlay {
+        display: block; /* But opacity 0 until active */
+        pointer-events: none;
+    }
+
     footer { flex-direction: column; gap: 20px; text-align: center; }
     .socials a { margin: 0 10px; }
 }

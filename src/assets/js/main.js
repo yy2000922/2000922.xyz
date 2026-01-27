@@ -279,12 +279,55 @@ const initGridDots = () => {
     requestAnimationFrame(draw);
 };
 
+const initMobileMenu = () => {
+    const toggle = document.querySelector(".menu-toggle");
+    const menuLinks = document.querySelector(".menu-links");
+    const overlay = document.querySelector(".menu-overlay");
+    const body = document.body;
+
+    if (!toggle || !menuLinks || !overlay) {
+        return;
+    }
+
+    const toggleMenu = (open) => {
+        const isOpen = open !== undefined ? open : !toggle.classList.contains("is-active");
+        
+        toggle.classList.toggle("is-active", isOpen);
+        toggle.setAttribute("aria-expanded", isOpen);
+        menuLinks.classList.toggle("is-active", isOpen);
+        overlay.classList.toggle("is-active", isOpen);
+        
+        // Prevent body scroll when menu is open
+        if (isOpen) {
+            body.style.overflow = "hidden";
+        } else {
+            body.style.overflow = "";
+        }
+    };
+
+    toggle.addEventListener("click", () => toggleMenu());
+    overlay.addEventListener("click", () => toggleMenu(false));
+
+    // Close menu when clicking on a link
+    menuLinks.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => toggleMenu(false));
+    });
+
+    // Close on escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && toggle.classList.contains("is-active")) {
+            toggleMenu(false);
+        }
+    });
+};
+
 const boot = () => {
     removeAnimationArtifacts();
     initPostActions();
     initPostHeaderVisibility();
     initHomeNavStyle();
     initGridDots();
+    initMobileMenu();
 };
 
 console.info("Clean theme assets loaded.");

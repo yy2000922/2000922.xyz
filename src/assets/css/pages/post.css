@@ -30,7 +30,7 @@
 .post-content {
     line-height: 1.65;
     font-size: 1rem;
-    max-width: 760px;
+    /* max-width: 760px; */
 }
 
 .post-actions {

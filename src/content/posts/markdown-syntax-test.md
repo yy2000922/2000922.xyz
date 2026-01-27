@@ -142,3 +142,85 @@ Eleventy
 
 [^1]: 这是第一个脚注的解释。
 [^2]: 这是第二个脚注，通常在页面底部渲染。
+
+---
+
+## 7. 标题层级 (Headings)
+
+# H1 标题
+## H2 标题
+### H3 标题
+#### H4 标题
+##### H5 标题
+###### H6 标题
+
+---
+
+## 8. HTML 元素支持
+
+如果 Markdown 解析器允许 HTML，下面的元素应该能正常显示：
+
+- <kbd>Ctrl</kbd> + <kbd>C</kbd> (键盘输入)
+- <abbr title="HyperText Markup Language">HTML</abbr> (缩写)
+- <mark>高亮文本</mark> (Mark)
+- <sub>下标</sub> (Subscript): H<sub>2</sub>O
+- <sup>上标</sup> (Superscript): E=mc<sup>2</sup>
+- <ins>插入文本</ins> (Inserted)
+- <del>删除文本</del> (Deleted)
+
+<details>
+<summary>点击展开查看更多详情 (Details/Summary)</summary>
+
+这里是隐藏的内容。通常用于折叠长段落或代码。
+
+```json
+{
+  "key": "value"
+}
+```
+</details>
+
+---
+
+## 9. 扩展语法 (Extended Syntax)
+
+*注意：这些语法依赖于特定的 Markdown 插件或解析器配置，可能无法在所有环境中渲染。*
+
+### 表情符号 (Emoji)
+:smile: :heart: :thumbsup: :rocket:
+
+### 数学公式 (Math)
+行内公式：$E = mc^2$ (如果支持)
+
+块级公式：
+$$
+\sum_{i=1}^n i = \frac{n(n+1)}{2}
+$$
+
+### GFM 警告块 (Alerts)
+
+> [!NOTE]
+> 这是一个提示块。
+
+> [!TIP]
+> 这是一个建议块。
+
+> [!WARNING]
+> 这是一个警告块。
+
+> [!IMPORTANT]
+> 这是一个重要信息块。
+
+---
+
+## 10. 长文本测试
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+中文长文本测试：
+这是一个非常长的段落，旨在测试文本在容器中的换行表现。当屏幕宽度变窄时，这段文字应该能够优雅地自动换行，而不会溢出容器。排版不仅仅是关于字体的选择，更关乎阅读体验的舒适度。行高（line-height）、字间距（letter-spacing）以及段落间距（margin-bottom）都需要精心调教。
+
+```
+这是一个非常长的单行代码块，用来测试代码块的横向滚动条是否正常工作。如果你看到了滚动条，说明样式设置正确。
+```
+

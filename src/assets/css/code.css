@@ -125,3 +125,27 @@ pre[class*="language-"] {
 .token.bold { font-weight: bold; }
 
 .token.italic { font-style: italic; }
+
+kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1;
+    color: var(--text-primary);
+    vertical-align: middle;
+    background-color: #fafafa;
+    border: 1px solid var(--accent-subtle);
+    border-radius: 4px;
+    box-shadow: 0 2px 0 var(--accent-subtle);
+    margin: 0 2px;
+}
+
+mark {
+    background-color: #fce588;
+    color: var(--text-primary);
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
+

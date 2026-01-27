@@ -1,8 +1,17 @@
 <nav class="site-nav">
     <div class="logo">{{ metadata.title }}</div>
+    
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
     <div class="menu-links">
         {% for item in navigation %}
         <a href="{{ item.url }}" class="{% if page.url == item.url %}active{% endif %}">{{ item.text }}</a>
         {% endfor %}
     </div>
+    
+    <div class="menu-overlay"></div>
 </nav>

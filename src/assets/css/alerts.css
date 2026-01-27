@@ -1,0 +1,76 @@
+/* GFM Alerts Styling */
+
+.markdown-alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--accent-subtle);
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.markdown-alert > :first-child {
+    margin-top: 0;
+}
+
+.markdown-alert > :last-child {
+    margin-bottom: 0;
+}
+
+.markdown-alert-title {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Icon alignment if SVGs are present */
+.markdown-alert-title > svg {
+    margin-right: 8px;
+    fill: currentColor;
+}
+
+/* Note - Blue */
+.markdown-alert-note {
+    border-left-color: #0969da;
+    background-color: rgba(9, 105, 218, 0.05);
+}
+.markdown-alert-note .markdown-alert-title {
+    color: #0969da;
+}
+
+/* Tip - Green */
+.markdown-alert-tip {
+    border-left-color: #1a7f37;
+    background-color: rgba(26, 127, 55, 0.05);
+}
+.markdown-alert-tip .markdown-alert-title {
+    color: #1a7f37;
+}
+
+/* Warning - Yellow/Orange */
+.markdown-alert-warning {
+    border-left-color: #9a6700;
+    background-color: rgba(154, 103, 0, 0.05);
+}
+.markdown-alert-warning .markdown-alert-title {
+    color: #9a6700;
+}
+
+/* Important - Purple */
+.markdown-alert-important {
+    border-left-color: #8250df;
+    background-color: rgba(130, 80, 223, 0.05);
+}
+.markdown-alert-important .markdown-alert-title {
+    color: #8250df;
+}
+
+/* Caution - Red */
+.markdown-alert-caution {
+    border-left-color: #d1242f;
+    background-color: rgba(209, 36, 47, 0.05);
+}
+.markdown-alert-caution .markdown-alert-title {
+    color: #d1242f;
+}
