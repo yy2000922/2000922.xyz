@@ -3,7 +3,7 @@
 <head>
     {% include "partials/head.njk" %}
 </head>
-<body>
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
     {% include "partials/site-header.njk" %}
 
     <main>
@@ -14,5 +14,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script src="/assets/js/main.js"></script>
+    {% mermaid_js %}
 </body>
 </html>

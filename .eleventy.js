@@ -6,9 +6,11 @@ const { registerDateFilters } = require("./eleventy/config/filters");
 const { registerCollections } = require("./eleventy/config/collections");
 const { passthroughPaths } = require("./eleventy/config/passthrough");
 
-module.exports = function(eleventyConfig) {
+module.exports = async function(eleventyConfig) {
+  const { default: mermaidPlugin } = await import("@kevingimbel/eleventy-plugin-mermaid");
 
   eleventyConfig.addPlugin(syntaxHighlight);
+  eleventyConfig.addPlugin(mermaidPlugin);
 
   passthroughPaths.forEach((path) => eleventyConfig.addPassthroughCopy(path));
 

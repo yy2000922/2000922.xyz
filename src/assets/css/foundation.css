@@ -26,6 +26,28 @@ body {
     line-height: 1.6;
 }
 
+body.post-bg-highlight {
+    --bg-color: #fdf7f0;
+}
+
+/* FAQ / Documentation style background */
+/* body.post-bg-faq {
+    --bg-color: #f7f9fc;
+} */
+body.post-bg-faq::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: radial-gradient(#d0d7de 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
 .cursor-dot,
 .cursor-outline {
     display: none;
