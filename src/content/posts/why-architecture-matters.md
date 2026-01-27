@@ -1,5 +1,5 @@
 ---
-title: 为什么这样选择
+title: 了解技术选型策略
 date: 2026-01-22
 tags:
   - posts
