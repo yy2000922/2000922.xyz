@@ -2,7 +2,7 @@
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const markdownIt = require("markdown-it");
 const markdownItGitHubAlerts = require("markdown-it-github-alerts");
-const { registerDateFilters } = require("./eleventy/config/filters");
+const { registerDateFilters, registerTitleFilters } = require("./eleventy/config/filters");
 const { registerCollections } = require("./eleventy/config/collections");
 const { passthroughPaths } = require("./eleventy/config/passthrough");
 
@@ -15,6 +15,7 @@ module.exports = async function(eleventyConfig) {
   passthroughPaths.forEach((path) => eleventyConfig.addPassthroughCopy(path));
 
   registerDateFilters(eleventyConfig);
+  registerTitleFilters(eleventyConfig);
   registerCollections(eleventyConfig);
 
   // Markdown Configuration

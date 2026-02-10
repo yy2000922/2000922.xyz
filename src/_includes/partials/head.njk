@@ -1,11 +1,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title | default(metadata.title) }}</title>
-    <meta name="description" content="{{ description or metadata.description }}">
+    <title>{{ title | formatTitle(siteConfig.meta.title) }}</title>
+    <meta name="description" content="{{ description or siteConfig.meta.description }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/style.css?v=20260122-11">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
     {% if pageStyles %}
         {% for href in pageStyles %}
             <link rel="stylesheet" href="{{ href }}">

@@ -12,7 +12,7 @@
     bottom: -1px;
     width: 140px;
     height: 3px;
-    background: linear-gradient(90deg, rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.05));
+    background: var(--hero-line-gradient);
 }
 
 .services-title {
@@ -41,11 +41,11 @@
 
 .service-tile {
     position: relative;
-    background: #f7f6f4;
+    background: var(--tile-bg-1);
     border-radius: 18px;
     padding: 26px 26px 24px;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--tile-shadow);
 }
 
 .service-tile::before {
@@ -64,10 +64,10 @@
 .service-tile--three { grid-area: three; }
 .service-tile--four { grid-area: four; }
 
-.service-tile--two { background: #f3f2f0; }
-.service-tile--three { background: #f6f5f3; }
+.service-tile--two { background: var(--tile-bg-2); }
+.service-tile--three { background: var(--tile-bg-3); }
 .service-tile--four {
-    background: linear-gradient(135deg, rgba(247, 246, 244, 1), rgba(255, 255, 255, 0.9));
+    background: var(--tile-bg-gradient);
 }
 
 .service-card-header {
@@ -134,7 +134,7 @@
     text-align: center;
     border: 1px solid var(--accent-subtle);
     border-radius: 14px;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0));
+    background: linear-gradient(135deg, var(--hover-bg), transparent);
 }
 
 .services-cta-title {
@@ -148,7 +148,7 @@
     justify-content: center;
     padding: 12px 28px;
     background: var(--text-primary);
-    color: #fff;
+    color: var(--bg-color);
     border-radius: 999px;
     text-decoration: none;
     font-weight: 500;
@@ -188,7 +188,7 @@
     font-weight: 700;
     letter-spacing: -0.04em;
     color: transparent;
-    -webkit-text-stroke: 2px rgba(0, 0, 0, 0.04);
+    -webkit-text-stroke: 2px var(--glass-border);
     position: absolute;
     top: -2.5rem;
     left: -1rem;
@@ -241,7 +241,7 @@
 .services-page-container .service-item {
     position: relative;
     padding: 2.5rem 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid var(--glass-border);
     transition: border-color 0.5s var(--services-easing);
     opacity: 0;
     animation: slideUp 0.8s var(--services-easing) forwards;
@@ -402,7 +402,7 @@
 
 .services-page-container .cta-section {
     padding: 3rem 0 0 0;
-    border-top: 3px solid #000000ff;
+    border-top: 3px solid var(--text-primary);
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

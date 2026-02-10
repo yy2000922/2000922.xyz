@@ -321,6 +321,23 @@ const initMobileMenu = () => {
     });
 };
 
+const initThemeToggle = () => {
+    const toggleButton = document.querySelector(".theme-toggle");
+    if (!toggleButton) return;
+
+    // Toggle logic
+    toggleButton.addEventListener("click", () => {
+        let theme = document.documentElement.getAttribute("data-theme");
+        if (theme === "dark") {
+            theme = "light";
+        } else {
+            theme = "dark";
+        }
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    });
+};
+
 const boot = () => {
     removeAnimationArtifacts();
     initPostActions();
@@ -328,6 +345,7 @@ const boot = () => {
     initHomeNavStyle();
     initGridDots();
     initMobileMenu();
+    initThemeToggle();
 };
 
 console.info("Clean theme assets loaded.");

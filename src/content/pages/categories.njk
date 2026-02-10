@@ -1,17 +1,17 @@
 ---
 layout: layouts/base.njk
-title: 分类 | deepwhitex.dev
+title: 知识框架
 permalink: /categories/
 ---
 
-<h1 class="page-title">分类</h1>
-<p class="page-subtitle">按主题浏览所有内容。</p>
+<h1 class="page-title">知识框架</h1>
+<p class="page-subtitle">按核心模块浏览电商知识体系。</p>
 
 <div class="clean-grid">
     {% for category, posts in collections.categories %}
     <div class="clean-card">
         <h3>{{ category }}</h3>
-        <p style="margin-bottom: 20px; color: var(--text-secondary);">{{ posts.length }} 篇文章</p>
+        <p style="margin-bottom: 20px; color: var(--text-secondary);">{{ posts.length }} 篇文档</p>
         <div class="clean-list" style="border-top: none;">
             {% for post in posts %}
             <a href="{{ post.url }}" class="clean-item" style="padding: 10px 0; border-bottom: 1px dashed var(--accent-subtle);">

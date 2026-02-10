@@ -63,7 +63,7 @@
     opacity: 0.55;
     border-color: var(--text-primary);
     color: var(--text-primary);
-    background: rgba(0, 0, 0, 0.02);
+    background: var(--hover-bg);
 }
 
 .post-top {

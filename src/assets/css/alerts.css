@@ -74,3 +74,44 @@
 .markdown-alert-caution .markdown-alert-title {
     color: #d1242f;
 }
+
+/* Dark Theme Overrides for Alerts */
+[data-theme="dark"] .markdown-alert-note {
+    border-left-color: #2f81f7;
+    background-color: rgba(56, 139, 253, 0.1);
+}
+[data-theme="dark"] .markdown-alert-note .markdown-alert-title {
+    color: #2f81f7;
+}
+
+[data-theme="dark"] .markdown-alert-tip {
+    border-left-color: #3fb950;
+    background-color: rgba(46, 160, 67, 0.1);
+}
+[data-theme="dark"] .markdown-alert-tip .markdown-alert-title {
+    color: #3fb950;
+}
+
+[data-theme="dark"] .markdown-alert-warning {
+    border-left-color: #d29922;
+    background-color: rgba(187, 128, 9, 0.1);
+}
+[data-theme="dark"] .markdown-alert-warning .markdown-alert-title {
+    color: #d29922;
+}
+
+[data-theme="dark"] .markdown-alert-important {
+    border-left-color: #a371f7;
+    background-color: rgba(163, 113, 247, 0.1);
+}
+[data-theme="dark"] .markdown-alert-important .markdown-alert-title {
+    color: #a371f7;
+}
+
+[data-theme="dark"] .markdown-alert-caution {
+    border-left-color: #f85149;
+    background-color: rgba(248, 81, 73, 0.1);
+}
+[data-theme="dark"] .markdown-alert-caution .markdown-alert-title {
+    color: #f85149;
+}

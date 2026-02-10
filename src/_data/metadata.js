@@ -1,17 +1,17 @@
+const siteConfig = require("./siteConfig");
+
 module.exports = {
-    title: "deepwhitex.dev",
-    url: "https://deepwhitex.dev",
-    language: "zh-CN",
-    description: "建立一个属于自己的记录网站",
+    title: siteConfig.meta.title,
+    url: siteConfig.meta.url,
+    language: siteConfig.meta.lang,
+    description: siteConfig.meta.description,
     author: {
-        name: "DeepWhite",
-        email: "contact@deepwhitex.dev",
-        url: "https://deepwhitex.dev"
+        name: siteConfig.meta.author,
+        email: siteConfig.meta.email,
+        url: siteConfig.meta.url
     },
-    socials: [
-        { name: "GitHub", url: "https://github.com/FXnadu" },
-        { name: "Email", url: "mailto:deepwhite86@outlook.com" },
-        { name: "WeChat", url: "/contact/" },
-        { name: "XianYu", url: "/contact/" }
-    ]
-} 
+    socials: siteConfig.footer.socialLinks.map(link => ({
+        name: link.text,
+        url: link.url
+    }))
+}; 

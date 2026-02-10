@@ -1,12 +1,63 @@
 :root {
-    --bg-color: #fcfcfc;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --accent-color: #333333;
-    --accent-subtle: #e5e5e5;
-    --glass-bg: rgba(255, 255, 255, 0.8);
-    --glass-border: rgba(0, 0, 0, 0.05);
+    /* Common Variables */
     --cursor-size: 10px;
+
+    /* 
+     * EYE-CARE DARK THEME (Default)
+     * WCAG 2.2 AA+ Compliant
+     * Base: Soft Charcoal (#161618) - Reduces glare compared to pure black
+     * Text: Off-White (#E3E3E8) - Reduces high contrast vibration
+     */
+    --bg-color: #161618;
+    --text-primary: #E3E3E8; /* Contrast ~13.5:1 */
+    --text-secondary: #A1A1AA; /* Contrast ~5.5:1 */
+    --accent-color: #34D399; /* Modern Teal (Emerald 400) - Growth & Efficiency */
+    --accent-subtle: #27272A; /* Separators/Borders */
+    --glass-bg: rgba(22, 22, 24, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --hover-bg: rgba(255, 255, 255, 0.04);
+    --nav-bg: rgba(22, 22, 24, 0.92);
+
+    /* Service Tile Backgrounds (Dark) */
+    --tile-bg-1: #1F1F22;
+    --tile-bg-2: #242428;
+    --tile-bg-3: #1A1A1D;
+    --tile-bg-gradient: linear-gradient(135deg, #1F1F22, #2A2A2E);
+    --tile-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --hero-line-gradient: linear-gradient(90deg, rgba(52, 211, 153, 0.5), rgba(52, 211, 153, 0.05));
+    
+    /* Code/Block Elements */
+    --code-bg: #1F1F22;
+    --blockquote-border: #34D399;
+}
+
+[data-theme="light"] {
+    /* 
+     * EYE-CARE LIGHT THEME
+     * Optimized for Paper-like Reading Comfort
+     * Avoids #FFFFFF and #000000 to reduce glare and contrast vibration
+     */
+    --bg-color: #F9FAFB; /* Cool Gray 50 - "Paper White" */
+    --text-primary: #1F2937; /* Gray 900 - "Ink Black" */
+    --text-secondary: #4B5563; /* Gray 600 */
+    --accent-color: #059669; /* Modern Teal (Emerald 600) - Fresh & Professional */
+    --accent-subtle: #E5E7EB; /* Gray 200 */
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(0, 0, 0, 0.06);
+    --hover-bg: rgba(0, 0, 0, 0.04);
+    --nav-bg: rgba(249, 250, 251, 0.95);
+    
+    /* Service Tile Backgrounds (Light) */
+    --tile-bg-1: #FFFFFF; /* Cards pop slightly against F9FAFB bg */
+    --tile-bg-2: #F3F4F6;
+    --tile-bg-3: #F9FAFB;
+    --tile-bg-gradient: linear-gradient(135deg, #FFFFFF, #F3F4F6);
+    --tile-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --hero-line-gradient: linear-gradient(90deg, rgba(5, 150, 105, 0.1), rgba(5, 150, 105, 0.01));
+    
+    /* Code/Block Elements */
+    --code-bg: #F3F4F6;
+    --blockquote-border: #059669;
 }
 
 * {
@@ -24,10 +75,20 @@ body {
     width: 100vw;
     min-height: 100vh;
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.post-bg-highlight {
     --bg-color: #fdf7f0;
+}
+/* Override for post highlight in dark mode if needed, or keep as is? 
+   The user asked for separation. 
+   #fdf7f0 is very light. In dark mode, this might be blinding.
+   Let's add a dark override for post-bg-highlight if the user hasn't already. 
+   But for now, I'll just keep the file structure as requested. 
+*/
+[data-theme="dark"] body.post-bg-highlight {
+     --bg-color: #1a1a1a; /* Fallback for dark mode highlight */
 }
 
 /* FAQ / Documentation style background */

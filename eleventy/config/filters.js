@@ -34,4 +34,14 @@ function registerDateFilters(eleventyConfig) {
   });
 }
 
-module.exports = { registerDateFilters };
+function registerTitleFilters(eleventyConfig) {
+  eleventyConfig.addFilter("formatTitle", (title, siteTitle, sep = " | ") => {
+    const s = siteTitle ? String(siteTitle) : "";
+    if (!title) return s;
+    const t = String(title);
+    if (!s) return t;
+    return t.includes(s) ? t : `${t}${sep}${s}`;
+  });
+}
+
+module.exports = { registerDateFilters, registerTitleFilters };

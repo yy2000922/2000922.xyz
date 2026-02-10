@@ -7,10 +7,10 @@
     justify-content: space-between;
     align-items: center;
     z-index: 100;
-    background: rgba(252, 252, 252, 0.9);
+    background: var(--nav-bg);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--glass-border);
-    transition: transform 0.25s ease, opacity 0.25s ease;
+    transition: transform 0.25s ease, opacity 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .site-nav.is-hidden {
@@ -31,6 +31,7 @@
 .menu-links {
     display: flex;
     gap: 40px;
+    align-items: center; /* Align items vertically */
 }
 
 .menu-links a {
@@ -44,6 +45,47 @@
 .menu-links a:hover,
 .menu-links a.active {
     color: var(--text-primary);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: color 0.3s, background-color 0.3s;
+    margin-left: 10px; /* Spacing from last link */
+}
+
+.theme-toggle:hover {
+    color: var(--text-primary);
+    background-color: var(--hover-bg);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+.theme-toggle .icon-sun {
+    display: none;
+}
+
+.theme-toggle .icon-moon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
 }
 
 main {
@@ -65,7 +107,7 @@ footer {
 
 .footer-meta {
     margin-top: 30px;
-    color: #444;
+    color: var(--text-secondary);
     font-size: 0.8rem;
     line-height: 1.4;
 }
@@ -189,6 +231,7 @@ footer {
         transition: right 0.3s ease;
         z-index: 100;
         gap: 20px;
+        align-items: flex-start; /* Reset align-items for mobile column layout */
     }
 
     .menu-links.is-active {
@@ -202,4 +245,10 @@ footer {
 
     footer { flex-direction: column; gap: 20px; text-align: center; }
     .socials a { margin: 0 10px; }
+    
+    /* Adjust theme toggle in mobile menu */
+    .theme-toggle {
+        margin-left: 0;
+        margin-top: 10px;
+    }
 }
