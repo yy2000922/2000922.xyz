@@ -208,9 +208,8 @@ footer {
     pointer-events: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .site-nav { padding: 20px; }
-    main { padding: 100px 20px 40px; }
     
     .menu-toggle {
         display: block;
@@ -243,12 +242,16 @@ footer {
         pointer-events: none;
     }
 
-    footer { flex-direction: column; gap: 20px; text-align: center; }
-    .socials a { margin: 0 10px; }
-    
     /* Adjust theme toggle in mobile menu */
     .theme-toggle {
         margin-left: 0;
         margin-top: 10px;
     }
+}
+
+@media (max-width: 768px) {
+    main { padding: 100px 20px 40px; }
+
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    .socials a { margin: 0 10px; }
 }

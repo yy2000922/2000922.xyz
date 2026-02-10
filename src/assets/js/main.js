@@ -327,6 +327,9 @@ const initThemeToggle = () => {
 
     // Toggle logic
     toggleButton.addEventListener("click", () => {
+        // Add transition class for smooth animation
+        document.documentElement.classList.add('theme-transition');
+
         let theme = document.documentElement.getAttribute("data-theme");
         if (theme === "dark") {
             theme = "light";
@@ -335,6 +338,11 @@ const initThemeToggle = () => {
         }
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("theme", theme);
+
+        // Remove transition class after animation finishes
+        setTimeout(() => {
+            document.documentElement.classList.remove('theme-transition');
+        }, 350); // Slightly longer than CSS transition (300ms)
     });
 };
 

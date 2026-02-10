@@ -13,7 +13,7 @@ pageStyles:
             <div class="post-tags">
                 {% for tag in tags %}
                     {% if tag != "posts" %}
-                        <span class="post-tag" style="color: {{ tag | stringToBorderColor }}; font-weight: 500;">#{{ tag }}</span>
+                        <span class="post-tag" style="--tag-hue: {{ tag | stringToHue }};">#{{ tag }}</span>
                     {% endif %}
                 {% endfor %}
             </div>

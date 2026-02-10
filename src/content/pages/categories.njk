@@ -12,9 +12,9 @@ permalink: /categories/
     <div class="clean-card">
         <h3>{{ category }}</h3>
         <p style="margin-bottom: 20px; color: var(--text-secondary);">{{ posts.length }} 篇文档</p>
-        <div class="clean-list" style="border-top: none;">
+        <div class="clean-list no-border-top" style="border-top: none;">
             {% for post in posts %}
-            <a href="{{ post.url }}" class="clean-item" style="padding: 10px 0; border-bottom: 1px dashed var(--accent-subtle);">
+            <a href="{{ post.url }}" class="clean-item" style="padding: 10px 20px; border-bottom: 1px dashed var(--accent-subtle);">
                 <span class="clean-item-title" style="font-size: 1rem;">{{ post.data.title }}</span>
             </a>
             {% endfor %}

@@ -3,32 +3,48 @@
     --cursor-size: 10px;
 
     /* 
-     * EYE-CARE DARK THEME (Default)
-     * WCAG 2.2 AA+ Compliant
-     * Base: Soft Charcoal (#161618) - Reduces glare compared to pure black
-     * Text: Off-White (#E3E3E8) - Reduces high contrast vibration
+     * HIGH CONTRAST DARK THEME (Updated)
+     * Scheme 1: Cyber Neon (Vibrant & Modern)
+     * Focus: High readability on dark backgrounds using bright, saturated pastels.
      */
-    --bg-color: #161618;
-    --text-primary: #E3E3E8; /* Contrast ~13.5:1 */
-    --text-secondary: #A1A1AA; /* Contrast ~5.5:1 */
-    --accent-color: #34D399; /* Modern Teal (Emerald 400) - Growth & Efficiency */
-    --accent-subtle: #27272A; /* Separators/Borders */
-    --glass-bg: rgba(22, 22, 24, 0.85);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --hover-bg: rgba(255, 255, 255, 0.04);
-    --nav-bg: rgba(22, 22, 24, 0.92);
+    --bg-color: #050505; /* Deepest Black for max contrast */
+    --text-primary: #FFFFFF; /* Pure White for text */
+    --text-secondary: #E5E7EB; /* Gray 200 - Very light gray */
+    
+    /* Primary Accent: Modern Emerald (Restored) */
+    --accent-color: #34D399; /* Emerald 400 */
+    
+    /* Borders: Visible but subtle gray */
+    --accent-subtle: #333333; 
+    
+    --glass-bg: rgba(5, 5, 5, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    --nav-bg: rgba(5, 5, 5, 0.95);
 
     /* Service Tile Backgrounds (Dark) */
-    --tile-bg-1: #1F1F22;
-    --tile-bg-2: #242428;
-    --tile-bg-3: #1A1A1D;
-    --tile-bg-gradient: linear-gradient(135deg, #1F1F22, #2A2A2E);
-    --tile-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --tile-bg-1: #121212; /* Slightly lighter than bg */
+    --tile-bg-2: #1A1A1A;
+    --tile-bg-3: #000000;
+    --tile-bg-gradient: linear-gradient(135deg, #121212, #1E1E1E);
+    --tile-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
     --hero-line-gradient: linear-gradient(90deg, rgba(52, 211, 153, 0.5), rgba(52, 211, 153, 0.05));
     
     /* Code/Block Elements */
-    --code-bg: #1F1F22;
+    --code-bg: #121212;
     --blockquote-border: #34D399;
+
+    /* Tag System (High Contrast Dark) */
+    --tag-saturation: 85%;  /* High saturation for vibrancy */
+    --tag-lightness: 75%;   /* High lightness for readability */
+    --tag-bg-opacity: 0.15;
+    
+    /* Semantic Palette (Cyber Neon) */
+    --color-primary: #C084FC; /* Bright Purple */
+    --color-success: #4ADE80; /* Neon Green */
+    --color-warning: #FACC15; /* Bright Yellow */
+    --color-danger:  #F87171; /* Salmon Red */
+    --color-info:    #38BDF8; /* Sky Blue */
 }
 
 [data-theme="light"] {
@@ -58,6 +74,18 @@
     /* Code/Block Elements */
     --code-bg: #F3F4F6;
     --blockquote-border: #059669;
+
+    /* Tag System (Light Mode) */
+    --tag-saturation: 80%;
+    --tag-lightness: 35%;
+    --tag-bg-opacity: 0.1;
+    
+    /* Semantic Palette (Light Mode) */
+    --color-primary: #7c3aed;
+    --color-success: #059669;
+    --color-warning: #d97706;
+    --color-danger:  #dc2626;
+    --color-info:    #2563eb;
 }
 
 * {
@@ -75,7 +103,22 @@ body {
     width: 100vw;
     min-height: 100vh;
     line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    /* transition: background-color 0.3s ease, color 0.3s ease; -- Removed, handled by .theme-transition */
+}
+
+/* Global Smooth Theme Transition */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                fill 0.3s ease,
+                stroke 0.3s ease,
+                box-shadow 0.3s ease,
+                opacity 0.3s ease !important;
+    transition-delay: 0s !important;
 }
 
 body.post-bg-highlight {

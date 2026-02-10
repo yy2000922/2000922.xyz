@@ -39,10 +39,10 @@ const config = {
     navigation: {
         main: [
             { text: "首页", url: "/" },
-            { text: "知识框架", url: "/categories/" },
+            { text: "知识库", url: "/categories/" },
             { text: "标签", url: "/tags/" },
-            { text: "实战案例", url: "/updates/" },
-            { text: "复盘笔记", url: "/records/" },
+            // { text: "实战案例", url: "/updates/" },
+            { text: "最近更新", url: "/records/" },
             { text: "方法论", url: "/services/" },
             { text: "联系我", url: "/contact/" }
         ]
@@ -52,9 +52,7 @@ const config = {
         tagline: "构建系统化的电商知识体系",
         socialLinks: [
             { text: "GitHub", url: "https://github.com/FXnadu", icon: "fa-brands fa-github" },
-            { text: "Email", url: "mailto:deepwhite86@outlook.com", icon: "fa-solid fa-envelope" },
-            { text: "WeChat", url: "/contact/", icon: "fa-brands fa-weixin" },
-            { text: "XianYu", url: "/contact/", icon: "fa-solid fa-store" }
+            { text: "Email", url: "mailto:deepwhite86@outlook.com", icon: "fa-solid fa-envelope" }
         ]
     },
     meta: {

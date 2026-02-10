@@ -10,8 +10,8 @@ permalink: /tags/
 <div style="margin-bottom: 50px; display: flex; flex-wrap: wrap; gap: 15px;">
     {% for tag, posts in collections %}
         {% if tag != "posts" and tag != "all" and tag != "categories" %}
-        <a href="#{{ tag }}" style="padding: 8px 16px; background: {{ tag | stringToColor }}; color: {{ tag | stringToBorderColor }}; border-radius: 20px; text-decoration: none; font-size: 0.9rem; transition: all 0.2s; font-weight: 500;">
-            #{{ tag }} <span style="opacity: 0.7; margin-left: 5px;">{{ posts.length }}</span>
+        <a href="#{{ tag }}" class="tag-cloud-link" style="--tag-hue: {{ tag | stringToHue }};">
+            #{{ tag }} <span class="tag-cloud-count">{{ posts.length }}</span>
         </a>
         {% endif %}
     {% endfor %}
@@ -21,8 +21,8 @@ permalink: /tags/
     {% for tag, posts in collections %}
         {% if tag != "posts" and tag != "all" and tag != "categories" %}
         <div id="{{ tag }}" style="margin-bottom: 40px;">
-            <h3 style="margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid {{ tag | stringToColor }}; color: {{ tag | stringToBorderColor }};">#{{ tag }}</h3>
-            <div class="clean-list" style="border-top: none;">
+            <h3 class="tag-header" style="--tag-hue: {{ tag | stringToHue }};">#{{ tag }}</h3>
+            <div class="clean-list no-border-top" style="border-top: none;">
                 {% for post in posts | reverse %}
                 <a href="{{ post.url }}" class="clean-item">
                     <span class="clean-item-title">{{ post.data.title }}</span>

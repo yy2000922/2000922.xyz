@@ -12,18 +12,27 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    border-top: 1px solid var(--accent-subtle);
+    /* border-top: 1px solid var(--accent-subtle); */
 }
 
 .clean-item {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 20px 0;
+    padding: 20px 20px;
+    margin: 0 -20px;
     border-bottom: 1px solid var(--accent-subtle);
     text-decoration: none;
     color: var(--text-primary);
     transition: background-color 0.2s;
+}
+
+.clean-list > *:first-child {
+    border-top: 1px solid var(--accent-subtle);
+}
+
+.clean-list.no-border-top > *:first-child {
+    border-top: none;
 }
 
 .clean-item:hover { background-color: var(--hover-bg); }
@@ -54,8 +63,18 @@
 }
 
 .clean-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+    /* transform: translateY(-2px); -- Removed per user preference */
+    /* 克制而优雅的阴影：增加纵深感，但边缘柔和 */
+    box-shadow: 0 12px 24px -6px rgba(0,0,0,0.08), 0 4px 8px -2px rgba(0,0,0,0.04);
+    /* 边框微调：比默认边框稍深，提升轮廓清晰度 */
+    border-color: var(--text-secondary);
+}
+
+[data-theme="dark"] .clean-card:hover {
+    /* 暗色模式下：通过背景微亮和更强的阴影来体现层级 */
+    background-color: var(--tile-bg-2);
+    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.5);
+    border-color: var(--text-primary);
 }
 
 .clean-card h3 {
@@ -148,4 +167,45 @@
     .philosophy-wrapper { grid-template-columns: 1fr; gap: 40px; }
 }
 
+/* Tag Cloud Styles */
+.tag-cloud-link {
+    --tag-hue-final: var(--tag-hue, 270);
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    
+    /* Colors derived from foundation variables */
+    color: hsl(var(--tag-hue-final), var(--tag-saturation), var(--tag-lightness));
+    background-color: hsla(var(--tag-hue-final), var(--tag-saturation), var(--tag-lightness), var(--tag-bg-opacity));
+    border: 1px solid hsla(var(--tag-hue-final), var(--tag-saturation), var(--tag-lightness), 0.2);
+}
+
+.tag-cloud-link:hover {
+    background-color: hsla(var(--tag-hue-final), var(--tag-saturation), var(--tag-lightness), calc(var(--tag-bg-opacity) + 0.15));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    color: hsl(var(--tag-hue-final), var(--tag-saturation), var(--tag-lightness));
+}
+
+.tag-cloud-count {
+    opacity: 0.7;
+    margin-left: 6px;
+    font-size: 0.8em;
+}
+
+.tag-header {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    /* Use hue for border */
+    --tag-hue-final: var(--tag-hue, 270);
+    border-bottom: 2px solid hsl(var(--tag-hue-final), var(--tag-saturation), var(--tag-lightness));
+    color: hsl(var(--tag-hue-final), var(--tag-saturation), var(--tag-lightness));
+    display: flex;
+    align-items: center;
+}
 

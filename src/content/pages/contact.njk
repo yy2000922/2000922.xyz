@@ -41,36 +41,7 @@ status: limited # 在这里修改: open, busy, limited, closed
         </div>
     </div>
 
-    <div style="padding: 30px; background: #fafafa; border-radius: 8px;">
-        <h3 style="margin-bottom: 10px;">工作状态</h3>
-        
-        {% if status == 'open' %}
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 10px; height: 10px; background: #4caf50; border-radius: 50%; box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);"></div>
-            <span>目前接受新项目委托</span>
-        </div>
-        {% elif status == 'busy' %}
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 10px; height: 10px; background: #f44336; border-radius: 50%; box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);"></div>
-            <span>目前项目已满，暂不接受新委托</span>
-        </div>
-        {% elif status == 'limited' %}
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 10px; height: 10px; background: #ff9800; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);"></div>
-            <span>接受预订，排期较满</span>
-        </div>
-        {% elif status == 'closed' %}
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 10px; height: 10px; background: #9e9e9e; border-radius: 50%; box-shadow: 0 0 0 2px rgba(158, 158, 158, 0.2);"></div>
-            <span>暂停接单 / 休息中</span>
-        </div>
-        {% else %}
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 10px; height: 10px; background: #4caf50; border-radius: 50%;"></div>
-            <span>目前接受新项目委托</span>
-        </div>
-        {% endif %}
-    </div>
+
 </div>
 
 <script>
