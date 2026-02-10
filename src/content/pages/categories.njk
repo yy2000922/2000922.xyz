@@ -1,24 +1,43 @@
 ---
 layout: layouts/base.njk
-title: 知识框架
+title: 知识库
 permalink: /categories/
 ---
 
-<h1 class="page-title">知识框架</h1>
+<h1 class="page-title">知识库</h1>
 <p class="page-subtitle">按核心模块浏览电商知识体系。</p>
 
 <div class="clean-grid">
-    {% for category, posts in collections.categories %}
-    <div class="clean-card">
-        <h3>{{ category }}</h3>
-        <p style="margin-bottom: 20px; color: var(--text-secondary);">{{ posts.length }} 篇文档</p>
+    {% for cat in collections.categoriesList %}
+    {% if not cat.parent %}
+    <div class="clean-card" onclick="if(!event.target.closest('a')) window.location.href='{{ cat.url }}'" style="cursor: pointer;">
+        <h3><a href="{{ cat.url }}" style="text-decoration: none; color: inherit;">{{ cat.title }}</a></h3>
+        <p style="margin-bottom: 20px; color: var(--text-secondary);">
+            {{ cat.posts.length }} 篇文档
+            {% if cat.children.length > 0 %} · {{ cat.children.length }} 个子分类{% endif %}
+        </p>
+        
+        {% if cat.children.length > 0 %}
+        <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
+            {% for child in cat.children %}
+            <a href="{{ child.url }}" class="tag-cloud-link" style="font-size: 0.8rem; padding: 4px 10px;">{{ child.title }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="clean-list no-border-top" style="border-top: none;">
-            {% for post in posts %}
+            {% for post in cat.posts.slice(0, 3) %}
             <a href="{{ post.url }}" class="clean-item" style="padding: 10px 20px; border-bottom: 1px dashed var(--accent-subtle);">
                 <span class="clean-item-title" style="font-size: 1rem;">{{ post.data.title }}</span>
             </a>
             {% endfor %}
+            {% if cat.posts.length > 3 %}
+            <a href="{{ cat.url }}" class="clean-item" style="padding: 10px 20px; justify-content: center; color: var(--accent); border-bottom: none;">
+                <span class="clean-item-title" style="font-size: 0.9rem;">查看全部 {{ cat.posts.length }} 篇文章 →</span>
+            </a>
+            {% endif %}
         </div>
     </div>
+    {% endif %}
     {% endfor %}
 </div>

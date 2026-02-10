@@ -1,0 +1,10 @@
+{
+  "Tech": {
+    "description": "Technology related articles",
+    "title": "Technology"
+  },
+  "Design": {
+    "description": "Design patterns and theory",
+    "title": "Design"
+  }
+}
