@@ -1,8 +1,12 @@
 ---
 layout: layouts/base.njk
 title: 归档
-permalink: /archive/
 bodyClass: no-grid-page
+pagination:
+  data: collections.posts
+  size: 20
+  alias: pagedPosts
+permalink: "{% if pagination.pageNumber == 0 %}/archive/{% else %}/archive/page/{{ pagination.pageNumber + 1 }}/{% endif %}"
 ---
 
 <h1 class="page-title">归档</h1>
@@ -11,12 +15,15 @@ bodyClass: no-grid-page
 {% set currentYear = "" %}
 
 <div class="clean-list">
-    {% for post in collections.posts %}
+    {% for post in pagedPosts %}
         {% set postYear = post.date | year %}
         
         {% if currentYear != postYear %}
             {% set currentYear = postYear %}
-            <h2 style="margin-top: 40px; margin-bottom: 20px; font-size: 1.5rem; color: var(--text-secondary);">{{ currentYear }}</h2>
+            <h2 style="margin-top: 40px; margin-bottom: 20px; font-size: 1.5rem; color: var(--text-secondary); display: flex; align-items: center; gap: 10px; transform: translateZ(0);">
+                <i class="fa-solid fa-book-open" style="font-size: 0.8em; opacity: 0.75; -webkit-text-stroke: 0.5px currentColor; text-rendering: optimizeLegibility;"></i>
+                {{ currentYear }}
+            </h2>
         {% endif %}
 
         <a href="{{ post.url }}" class="clean-item">
@@ -25,3 +32,27 @@ bodyClass: no-grid-page
         </a>
     {% endfor %}
 </div>
+
+{% if pagination.pages.length > 1 %}
+<div style="margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+    {% if pagination.pageNumber > 0 %}
+    {% if pagination.pageNumber == 1 %}
+    <a href="/archive/" class="clean-link">← 上一页</a>
+    {% else %}
+    <a href="/archive/page/{{ pagination.pageNumber }}/" class="clean-link">← 上一页</a>
+    {% endif %}
+    {% else %}
+    <span></span>
+    {% endif %}
+
+    <span style="font-size: 0.9rem; color: var(--text-secondary);">
+        第 {{ pagination.pageNumber + 1 }} / {{ pagination.pages.length }} 页
+    </span>
+
+    {% if pagination.pageNumber + 1 < pagination.pages.length %}
+    <a href="/archive/page/{{ pagination.pageNumber + 2 }}/" class="clean-link">下一页 →</a>
+    {% else %}
+    <span></span>
+    {% endif %}
+</div>
+{% endif %}

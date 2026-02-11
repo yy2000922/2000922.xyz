@@ -32,14 +32,6 @@ function getCategoryPathFromPost(item) {
   return "默认分类";
 }
 
-function hasPostsTag(item) {
-  const tags = item && item.data ? item.data.tags : null;
-  if (!tags) return false;
-  if (Array.isArray(tags)) return tags.includes("posts");
-  if (typeof tags === "string") return tags === "posts";
-  return false;
-}
-
 function getPostsFromContentDir(collectionApi) {
   return collectionApi
     .getAll()
@@ -47,12 +39,7 @@ function getPostsFromContentDir(collectionApi) {
       if (!item || !item.inputPath) return false;
       const normalizedPath = item.inputPath.split(path.sep).join('/');
       const isPostFile = normalizedPath.includes('/src/content/posts/') && normalizedPath.endsWith('.md');
-      if (!isPostFile) return false;
-
-      // Keep the "posts" tag convention; fallback only when tags are missing.
-      const tags = item.data ? item.data.tags : null;
-      if (!tags || (Array.isArray(tags) && tags.length === 0)) return true;
-      return hasPostsTag(item);
+      return isPostFile;
     })
     .sort((a, b) => b.date - a.date);
 }

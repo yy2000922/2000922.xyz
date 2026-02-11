@@ -27,7 +27,10 @@ pageStyles:
         {% for folder in collections.folderGroups %}
         <div id="folder-{{ loop.index }}" class="folder-section {% if loop.first %}active{% endif %}">
             <div class="section-header">
-                <h2>{{ folder.title }}</h2>
+                <h2 style="display: flex; align-items: center; gap: 12px; transform: translateZ(0);">
+                    <i class="fa-solid fa-book-open" style="font-size: 0.9em; opacity: 0.85; -webkit-text-stroke: 0.5px currentColor; text-rendering: optimizeLegibility;"></i>
+                    {{ folder.title }}
+                </h2>
             </div>
             <div class="cards-grid">
                 {% for cat in folder.categories %}

@@ -19,8 +19,8 @@
     
     --glass-bg: rgba(5, 5, 5, 0.9);
     --glass-border: rgba(255, 255, 255, 0.15);
-    --page-grid-line: rgba(255, 255, 255, 0.08);
-    --post-reading-grid-line: rgba(255, 255, 255, 0.028);
+    --page-grid-line: rgba(255, 255, 255, 0.12);
+    --post-reading-grid-line: rgba(255, 255, 255, 0.045);
     --hover-bg: rgba(255, 255, 255, 0.1);
     --nav-bg: rgba(5, 5, 5, 0.95);
 
@@ -97,6 +97,8 @@
     padding: 0;
     box-sizing: border-box;
     cursor: default;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {

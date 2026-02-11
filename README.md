@@ -88,7 +88,7 @@ npm run build
 ---
 title: "我的第一篇文章"
 date: 2024-01-22
-tags: ["posts", "生活"]
+tags: ["生活"] # 可选
 category: "随笔"
 description: "这是文章的简短描述，会显示在列表中。"
 layout: layouts/base.njk
