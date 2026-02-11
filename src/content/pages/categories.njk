@@ -2,42 +2,63 @@
 layout: layouts/base.njk
 title: 知识库
 permalink: /categories/
+pageStyles:
+  - /assets/css/pages/knowledge.css
 ---
 
-<h1 class="page-title">知识库</h1>
-<p class="page-subtitle">按核心模块浏览电商知识体系。</p>
-
-<div class="clean-grid">
-    {% for cat in collections.categoriesList %}
-    {% if not cat.parent %}
-    <div class="clean-card" onclick="if(!event.target.closest('a')) window.location.href='{{ cat.url }}'" style="cursor: pointer;">
-        <h3><a href="{{ cat.url }}" style="text-decoration: none; color: inherit;">{{ cat.title }}</a></h3>
-        <p style="margin-bottom: 20px; color: var(--text-secondary);">
-            {{ cat.posts.length }} 篇文档
-            {% if cat.children.length > 0 %} · {{ cat.children.length }} 个子分类{% endif %}
-        </p>
-        
-        {% if cat.children.length > 0 %}
-        <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px;">
-            {% for child in cat.children %}
-            <a href="{{ child.url }}" class="tag-cloud-link" style="font-size: 0.8rem; padding: 4px 10px;">{{ child.title }}</a>
+<div class="knowledge-container">
+    <aside class="knowledge-sidebar">
+        <h3 class="sidebar-title">
+            <i class="fa-solid fa-book"></i>
+            淘宝天猫运营百科全书
+        </h3>
+        <ul class="directory-list">
+            {% for dir in collections.directoriesList %}
+            <li class="directory-item {% if loop.first %}active{% endif %}" onclick="switchTab('dir-{{ loop.index }}', this)">
+                <i class="fa-solid fa-file-lines directory-icon"></i>
+                {{ dir.title }}
+            </li>
             {% endfor %}
-        </div>
-        {% endif %}
+        </ul>
+    </aside>
 
-        <div class="clean-list no-border-top" style="border-top: none;">
-            {% for post in cat.posts.slice(0, 3) %}
-            <a href="{{ post.url }}" class="clean-item" style="padding: 10px 20px; border-bottom: 1px dashed var(--accent-subtle);">
-                <span class="clean-item-title" style="font-size: 1rem;">{{ post.data.title }}</span>
-            </a>
-            {% endfor %}
-            {% if cat.posts.length > 3 %}
-            <a href="{{ cat.url }}" class="clean-item" style="padding: 10px 20px; justify-content: center; color: var(--accent); border-bottom: none;">
-                <span class="clean-item-title" style="font-size: 0.9rem;">查看全部 {{ cat.posts.length }} 篇文章 →</span>
-            </a>
-            {% endif %}
+    <main class="knowledge-content">
+        {% for dir in collections.directoriesList %}
+        <div id="dir-{{ loop.index }}" class="directory-section {% if loop.first %}active{% endif %}">
+            <div class="section-header">
+                <h2>{{ dir.title }}</h2>
+            </div>
+            <div class="cards-grid">
+                {% for cat in dir.categories %}
+                <div class="clean-card" onclick="if(!event.target.closest('a')) window.location.href='{{ cat.url }}'" style="cursor: pointer;">
+                    <h3><a href="{{ cat.url }}" style="text-decoration: none; color: inherit;">{{ cat.title }}</a></h3>
+                    {% if cat.description %}
+                    <p class="knowledge-card-desc">{{ cat.description }}</p>
+                    {% endif %}
+                    <div class="card-footer">
+                        <span>{{ cat.count }} 篇文档</span>
+                        <i class="fa-solid fa-arrow-right" style="opacity: 0.5; font-size: 0.9em;"></i>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </main>
 </div>
+
+<script>
+function switchTab(targetId, element) {
+    // Remove active class from all items
+    document.querySelectorAll('.directory-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelectorAll('.directory-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    // Add active class to clicked item and target section
+    element.classList.add('active');
+    document.getElementById(targetId).classList.add('active');
+}
+</script>

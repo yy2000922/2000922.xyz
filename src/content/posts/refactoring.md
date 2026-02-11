@@ -2,7 +2,8 @@
 title: "重构的艺术：从复杂到简约"
 date: 2025-01-20
 tags: ["posts", "技术", "重构"]
-category: "学习"
+category: "默认分类"
+directory: "第四篇、宣传篇"
 description: "探讨如何在代码和设计中做减法，保持系统的可维护性。"
 ---
 

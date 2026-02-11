@@ -9,7 +9,7 @@ permalink: /tags/
 
 <div style="margin-bottom: 50px; display: flex; flex-wrap: wrap; gap: 15px;">
     {% for tag, posts in collections %}
-        {% if tag != "posts" and tag != "all" and tag != "categories" %}
+        {% if tag != "posts" and tag != "all" and tag != "categories" and tag != "categoriesList" and tag != "directoriesList" and tag != "categoryPages" %}
         <a href="#{{ tag }}" class="tag-cloud-link" style="--tag-hue: {{ tag | stringToHue }};">
             #{{ tag }} <span class="tag-cloud-count">{{ posts.length }}</span>
         </a>
@@ -19,7 +19,7 @@ permalink: /tags/
 
 <div class="clean-list">
     {% for tag, posts in collections %}
-        {% if tag != "posts" and tag != "all" and tag != "categories" %}
+        {% if tag != "posts" and tag != "all" and tag != "categories" and tag != "categoriesList" and tag != "directoriesList" and tag != "categoryPages" %}
         <div id="{{ tag }}" style="margin-bottom: 40px;">
             <h3 class="tag-header" style="--tag-hue: {{ tag | stringToHue }};">#{{ tag }}</h3>
             <div class="clean-list no-border-top" style="border-top: none;">

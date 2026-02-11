@@ -4,6 +4,7 @@ date: 2026-01-06
 description: "用于分页测试的系统测试文章 06。"
 tags: ["测试", "分页"]
 category: "系统测试"
+directory: "第一篇、入门篇"
 layout: layouts/post.njk
 ---
 

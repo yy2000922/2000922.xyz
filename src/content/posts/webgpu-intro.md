@@ -2,7 +2,8 @@
 title: "WebGPU 与浏览器的未来"
 date: 2025-01-15
 tags: ["posts", "技术", "WebGPU"]
-category: "学习"
+category: "技术"
+directory: "第四篇、宣传篇"
 description: "WebGPU 正在开启 Web 图形渲染的新时代，本文是对其核心概念的初步探索。"
 ---
 

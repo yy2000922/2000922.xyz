@@ -3,7 +3,8 @@ title: "Markdown 语法全能测试：探索排版与样式的极限"
 date: 2024-05-20
 description: "这是一篇专门用于测试 Markdown 各种语法渲染效果的文章。涵盖了标题、列表、代码块、表格、引用、数学公式（如果支持）等多种元素，旨在验证主题对复杂内容的处理能力。"
 tags: ["测试", "Markdown", "排版"]
-category: "系统测试"
+category: "默认分类"
+directory: "第五篇、推广篇"
 layout: layouts/post.njk
 ---
 

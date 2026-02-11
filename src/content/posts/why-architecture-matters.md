@@ -1,6 +1,8 @@
 ---
 title: 什么技术选型策略以最低成本实现高性能静态网站？
 date: 2026-01-22
+category: "默认分类"
+directory: "第五篇、推广篇"
 tags:
   - posts
   - 技术方案

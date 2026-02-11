@@ -18,6 +18,6 @@
     </script>
     {% if pageStyles %}
         {% for href in pageStyles %}
-            <link rel="stylesheet" href="{{ href }}">
+            <link rel="stylesheet" href="{{ href }}" data-page-style>
         {% endfor %}
     {% endif %}

@@ -4,6 +4,7 @@ date: 2026-01-18
 description: "用于分页测试的系统测试文章 18。"
 tags: ["测试", "分页"]
 category: "系统测试"
+directory: "第二篇、调研及数据分析篇"
 layout: layouts/post.njk
 ---
 

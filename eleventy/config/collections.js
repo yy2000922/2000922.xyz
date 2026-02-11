@@ -98,152 +98,92 @@ function registerCollections(eleventyConfig) {
       }
     });
 
-    // 3. Return array
-    return Object.values(nodes).map(node => {
-      // Sort posts by date
-      node.posts.sort((a, b) => b.date - a.date);
-      
-      // Add URL property which is missing and causing click issues
-      node.url = `/categories/${node.key}/`;
-
-      // Resolve children objects (lightweight)
-      node.children = node.children.map(childKey => {
-          const child = nodes[childKey];
-          return {
-              title: child.title,
-              url: `/categories/${child.key}/`,
-              count: child.posts.length,
-              description: child.meta ? child.meta.description : ''
-          };
-      });
-      
-      // Generate breadcrumbs
-      const breadcrumbs = [];
-      let curr = node;
-      while (curr.parent) {
-        curr = nodes[curr.parent];
-        breadcrumbs.unshift({
-            title: curr.title,
-            url: `/categories/${curr.key}/`
-        });
-      }
-      node.breadcrumbs = breadcrumbs;
-      
-      return node;
-    });
+    return Object.values(nodes);
   });
 
-  eleventyConfig.addCollection("categoryPages", (collectionApi) => {
-    const pageSize = 10;
-    const nodes = {};
+  eleventyConfig.addCollection("directoriesList", (collectionApi) => {
+    const directories = {};
     const posts = collectionApi.getFilteredByTag("posts");
 
-    // Load metadata if available
+    // Load metadata
     let meta = {};
     try {
-      const metaPath = path.join(process.cwd(), 'src/_data/categoryMeta.json');
-      if (fs.existsSync(metaPath)) {
-        meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-      }
+        const metaPath = path.join(process.cwd(), 'src/_data/categoryMeta.json');
+        if (fs.existsSync(metaPath)) {
+            meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+        }
     } catch (e) {
-      console.warn("Could not load category metadata:", e);
+        console.warn("Could not load category metadata:", e);
     }
 
-    // 1. Create nodes for all levels
+    // 1. First build the category nodes (simplified logic from categoriesList)
+    const categoryNodes = {};
+    
     posts.forEach((item) => {
-      const category = item.data.category;
-      if (!category) return;
-
-      const parts = category.split('/');
-      let currentPath = '';
-
-      parts.forEach((part, index) => {
-        currentPath = currentPath ? `${currentPath}/${part}` : part;
-
-        if (!nodes[currentPath]) {
-          nodes[currentPath] = {
-            key: currentPath,
-            title: part,
-            name: part,
-            posts: [],
-            children: [],
-            parent: index > 0 ? parts.slice(0, index).join('/') : null
-          };
+        const category = item.data.category;
+        if (!category) return;
+        
+        // We only care about top-level categories for the directory mapping
+        const topLevelCategory = category.split('/')[0];
+        
+        if (!categoryNodes[topLevelCategory]) {
+            categoryNodes[topLevelCategory] = {
+                title: topLevelCategory,
+                url: `/categories/${topLevelCategory}/`, // Assuming standard URL structure
+                count: 0,
+                posts: [],
+                directory: null,
+                description: meta[topLevelCategory] ? meta[topLevelCategory].description : ''
+            };
         }
-
-        if (index === parts.length - 1) {
-          nodes[currentPath].posts.push(item);
+        
+        categoryNodes[topLevelCategory].count++;
+        categoryNodes[topLevelCategory].posts.push(item);
+        
+        // Map category to directory based on posts
+        // We assume all posts in a category belong to the same directory
+        // or we take the most frequent one / first one found
+        if (item.data.directory && !categoryNodes[topLevelCategory].directory) {
+            categoryNodes[topLevelCategory].directory = item.data.directory;
         }
-      });
     });
 
-    // 2. Build hierarchy (children pointers) and enrich with meta
-    Object.keys(nodes).forEach(key => {
-      const node = nodes[key];
-
-      if (node.parent && nodes[node.parent]) {
-        if (!nodes[node.parent].children.includes(key)) {
-          nodes[node.parent].children.push(key);
+    // 2. Group categories by directory
+    Object.values(categoryNodes).forEach(node => {
+        const dir = node.directory || "其他"; // Fallback for categories without directory
+        
+        if (!directories[dir]) {
+            directories[dir] = {
+                title: dir,
+                categories: []
+            };
         }
-      }
-
-      if (meta[key]) {
-        node.meta = meta[key];
-        if (meta[key].title) node.title = meta[key].title;
-      }
+        directories[dir].categories.push(node);
     });
 
-    // 3. Create paginated pages
-    const pages = [];
-    Object.values(nodes).forEach(node => {
-      node.posts.sort((a, b) => b.date - a.date);
-      node.url = `/categories/${node.key}/`;
-
-      node.children = node.children.map(childKey => {
-        const child = nodes[childKey];
-        return {
-          title: child.title,
-          url: `/categories/${child.key}/`,
-          count: child.posts.length,
-          description: child.meta ? child.meta.description : ''
+    // Convert to array and sort
+    const order = {
+        "第一篇": 1,
+        "第二篇": 2,
+        "第三篇": 3,
+        "第四篇": 4,
+        "第五篇": 5,
+        "第六篇": 6,
+        "第七篇": 7,
+        "第八篇": 8,
+        "第九篇": 9,
+        "第十篇": 10
+    };
+    
+    return Object.values(directories).sort((a, b) => {
+        const getOrder = (title) => {
+            for (const key in order) {
+                if (title.startsWith(key)) return order[key];
+            }
+            return 999;
         };
-      });
-
-      const breadcrumbs = [];
-      let curr = node;
-      while (curr.parent) {
-        curr = nodes[curr.parent];
-        breadcrumbs.unshift({
-          title: curr.title,
-          url: `/categories/${curr.key}/`
-        });
-      }
-      node.breadcrumbs = breadcrumbs;
-
-      const totalPages = Math.max(1, Math.ceil(node.posts.length / pageSize));
-      for (let pageNumber = 1; pageNumber <= totalPages; pageNumber += 1) {
-        const start = (pageNumber - 1) * pageSize;
-        const end = start + pageSize;
-        const baseUrl = node.url;
-        const url = pageNumber === 1 ? baseUrl : `${baseUrl}page/${pageNumber}/`;
-
-        pages.push({
-          key: node.key,
-          title: node.title,
-          meta: node.meta,
-          posts: node.posts.slice(start, end),
-          children: node.children,
-          breadcrumbs: node.breadcrumbs,
-          pageNumber,
-          totalPages,
-          url,
-          baseUrl,
-          count: node.posts.length
-        });
-      }
+        return getOrder(a.title) - getOrder(b.title);
     });
-
-    return pages;
   });
 }
 

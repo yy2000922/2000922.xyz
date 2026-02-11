@@ -5,12 +5,14 @@ const markdownItGitHubAlerts = require("markdown-it-github-alerts");
 const { registerDateFilters, registerTitleFilters } = require("./eleventy/config/filters");
 const { registerCollections } = require("./eleventy/config/collections");
 const { passthroughPaths } = require("./eleventy/config/passthrough");
+const musicPlayerPlugin = require("./eleventy/plugins/music-player");
 
 module.exports = async function(eleventyConfig) {
   const { default: mermaidPlugin } = await import("@kevingimbel/eleventy-plugin-mermaid");
 
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(mermaidPlugin);
+  eleventyConfig.addPlugin(musicPlayerPlugin);
 
   passthroughPaths.forEach((path) => eleventyConfig.addPassthroughCopy(path));
 

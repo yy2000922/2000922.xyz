@@ -3,7 +3,8 @@ title: 常见疑问解答
 date: 2026-01-23
 tags:
   - posts
-category: 常见问题
+category: "默认分类"
+directory: "第五篇、推广篇"
 description: 关于常见问题的说明。
 ---
 ## Q1：这个网站适不适合长期用？以后会不会很麻烦？

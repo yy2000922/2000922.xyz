@@ -6,7 +6,9 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
+    "sync-meta": "node scripts/sync-category-meta.js",
     "debug": "DEBUG=* eleventy",
+    "playlist:netease": "node scripts/update-netease-playlist.js --id 14271049356 --out src/assets/data/playlist.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

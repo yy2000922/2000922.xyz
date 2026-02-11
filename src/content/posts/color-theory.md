@@ -2,7 +2,8 @@
 title: "设计系统中的色彩哲学"
 date: 2024-12-28
 tags: ["posts", "设计", "色彩"]
-category: "读书"
+category: "设计"
+directory: "第三篇、架构篇"
 description: "读《色彩互动学》有感，如何在 UI 设计中构建和谐的色彩系统。"
 ---
 

@@ -12,7 +12,12 @@
 
     {% include "partials/site-footer.njk" %}
 
+    <div class="mp-float">
+        {% musicPlayer "/assets/data/playlist.json" %}
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    {% musicPlayerAssets %}
     <script src="/assets/js/main.js"></script>
     {% mermaid_js %}
 </body>

@@ -13,7 +13,7 @@ const removeAnimationArtifacts = () => {
 const initPostActions = () => {
     const actionWrap = document.querySelector(".post-actions");
     if (!actionWrap) {
-        return;
+        return () => {};
     }
 
     const backButton = actionWrap.querySelector("[data-action='back']");
@@ -63,18 +63,25 @@ const initPostActions = () => {
         updateActions();
         window.addEventListener("scroll", updateActions, { passive: true });
         window.addEventListener("resize", updateActions);
-        return;
+        return () => {
+            window.removeEventListener("scroll", updateActions);
+            window.removeEventListener("resize", updateActions);
+        };
     }
 
     updateFooterOffset();
     window.addEventListener("scroll", updateFooterOffset, { passive: true });
     window.addEventListener("resize", updateFooterOffset);
+    return () => {
+        window.removeEventListener("scroll", updateFooterOffset);
+        window.removeEventListener("resize", updateFooterOffset);
+    };
 };
 
 const initPostHeaderVisibility = () => {
     const postContainer = document.querySelector(".post-container");
     if (!postContainer) {
-        return;
+        return () => {};
     }
 
     const siteNav = document.querySelector(".site-nav");
@@ -113,6 +120,9 @@ const initPostHeaderVisibility = () => {
 
     updateVisibility();
     window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+        window.removeEventListener("scroll", onScroll);
+    };
 };
 
 const initHomeNavStyle = () => {
@@ -120,7 +130,7 @@ const initHomeNavStyle = () => {
     const siteNav = document.querySelector(".site-nav");
     
     if (!heroSection || !siteNav) {
-        return;
+        return () => {};
     }
 
     const updateNavStyle = () => {
@@ -133,15 +143,25 @@ const initHomeNavStyle = () => {
 
     window.addEventListener("scroll", updateNavStyle, { passive: true });
     updateNavStyle();
+    return () => {
+        window.removeEventListener("scroll", updateNavStyle);
+        siteNav.classList.remove("is-transparent");
+    };
 };
 
 const initGridDots = () => {
     const heroSection = document.querySelector(".hero-section");
     if (!heroSection) {
-        return;
+        return () => {};
+    }
+
+    const existingCanvas = document.querySelector(".grid-dots-canvas");
+    if (existingCanvas) {
+        existingCanvas.remove();
     }
 
     const canvas = document.createElement("canvas");
+    canvas.className = "grid-dots-canvas";
     canvas.style.position = "absolute";
     canvas.style.top = "0";
     canvas.style.left = "0";
@@ -217,7 +237,10 @@ const initGridDots = () => {
     };
 
     let lastTime = 0;
+    let running = true;
+    let rafId = 0;
     const draw = (time) => {
+        if (!running) return;
         if (!lastTime) lastTime = time;
         const dt = time - lastTime;
         lastTime = time;
@@ -271,12 +294,20 @@ const initGridDots = () => {
             ctx.fill();
         });
         
-        requestAnimationFrame(draw);
+        rafId = requestAnimationFrame(draw);
     };
 
     window.addEventListener("resize", resize);
     resize();
-    requestAnimationFrame(draw);
+    rafId = requestAnimationFrame(draw);
+    return () => {
+        running = false;
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+        }
+        window.removeEventListener("resize", resize);
+        canvas.remove();
+    };
 };
 
 const initMobileMenu = () => {
@@ -346,15 +377,119 @@ const initThemeToggle = () => {
     });
 };
 
-const boot = () => {
+const pageCleanups = [];
+
+const initPage = () => {
+    while (pageCleanups.length) {
+        const cleanup = pageCleanups.pop();
+        if (typeof cleanup === "function") cleanup();
+    }
     removeAnimationArtifacts();
-    initPostActions();
-    initPostHeaderVisibility();
-    initHomeNavStyle();
-    initGridDots();
+    pageCleanups.push(initPostActions());
+    pageCleanups.push(initPostHeaderVisibility());
+    pageCleanups.push(initHomeNavStyle());
+    pageCleanups.push(initGridDots());
+};
+
+let globalInited = false;
+const initGlobal = () => {
+    if (globalInited) return;
+    globalInited = true;
     initMobileMenu();
     initThemeToggle();
 };
 
+const boot = () => {
+    initGlobal();
+    initPage();
+};
+
 console.info("Clean theme assets loaded.");
-onReady(boot);
+const PJAX_SELECTOR = "a[href]";
+
+const isSameOrigin = (url) => url.origin === window.location.origin;
+
+const shouldHandleLink = (link) => {
+    if (!link) return false;
+    if (link.hasAttribute("data-no-pjax")) return false;
+    if (link.target && link.target !== "_self") return false;
+    if (link.hasAttribute("download")) return false;
+    if (link.getAttribute("rel") === "external") return false;
+    const href = link.getAttribute("href");
+    if (!href || href.startsWith("#")) return false;
+    if (href.startsWith("mailto:") || href.startsWith("tel:")) return false;
+    try {
+        const url = new URL(href, window.location.href);
+        if (!isSameOrigin(url)) return false;
+        if (url.pathname === window.location.pathname && url.hash) return false;
+        return true;
+    } catch (err) {
+        return false;
+    }
+};
+
+const updatePageStyles = (nextDoc) => {
+    const existing = document.head.querySelectorAll("link[rel='stylesheet'][data-page-style]");
+    existing.forEach((link) => link.remove());
+    const incoming = nextDoc.head.querySelectorAll("link[rel='stylesheet'][data-page-style]");
+    incoming.forEach((link) => document.head.appendChild(link.cloneNode(true)));
+};
+
+const swapContent = (nextDoc) => {
+    const nextMain = nextDoc.querySelector("main");
+    const currentMain = document.querySelector("main");
+    if (!nextMain || !currentMain) return;
+    currentMain.innerHTML = nextMain.innerHTML;
+    document.title = nextDoc.title;
+    const nextBodyClass = nextDoc.body.getAttribute("class");
+    if (nextBodyClass) {
+        document.body.setAttribute("class", nextBodyClass);
+    } else {
+        document.body.removeAttribute("class");
+    }
+    updatePageStyles(nextDoc);
+};
+
+const reinitAfterSwap = () => {
+    initPage();
+    if (window.mermaid && typeof window.mermaid.init === "function") {
+        window.mermaid.init(undefined, document.querySelectorAll(".mermaid"));
+    }
+};
+
+const loadPage = async (url, pushState = true) => {
+    const response = await fetch(url, { headers: { "X-Requested-With": "pjax" } });
+    if (!response.ok) {
+        window.location.href = url;
+        return;
+    }
+    const html = await response.text();
+    const parser = new DOMParser();
+    const nextDoc = parser.parseFromString(html, "text/html");
+    swapContent(nextDoc);
+    if (pushState) {
+        window.history.pushState({ url }, "", url);
+    }
+    window.scrollTo({ top: 0, behavior: "instant" });
+    reinitAfterSwap();
+};
+
+const handleLinkClick = (event) => {
+    const link = event.target.closest(PJAX_SELECTOR);
+    if (!shouldHandleLink(link)) return;
+    event.preventDefault();
+    const href = link.getAttribute("href");
+    const url = new URL(href, window.location.href).toString();
+    loadPage(url, true);
+};
+
+const handlePopState = (event) => {
+    const url = (event.state && event.state.url) || window.location.href;
+    loadPage(url, false);
+};
+
+onReady(() => {
+    boot();
+    document.addEventListener("click", handleLinkClick);
+    window.addEventListener("popstate", handlePopState);
+});

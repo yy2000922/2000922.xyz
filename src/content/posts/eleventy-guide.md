@@ -2,7 +2,8 @@
 title: "Eleventy 静态站点构建实战"
 date: 2024-11-10
 tags: ["posts", "技术", "Eleventy"]
-category: "项目"
+category: "技术"
+directory: "第三篇、架构篇"
 description: "使用 Eleventy 构建高性能个人网站的经验总结。"
 ---
 
