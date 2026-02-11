@@ -1,16 +1,14 @@
 ---
 layout: layouts/base.njk
-title: 归档
 bodyClass: no-grid-page
-pagination:
-  data: collections.posts
-  size: 20
-  alias: pagedPosts
-permalink: "{% if pagination.pageNumber == 0 %}/archive/{% else %}/archive/page/{{ pagination.pageNumber + 1 }}/{% endif %}"
 ---
+{% set archiveConfig = siteConfig.pages.archive %}
+{% set previousLabel = siteConfig.pagination.labels.previousPage %}
+{% set nextLabel = siteConfig.pagination.labels.nextPage %}
+{% set pageIndicatorTemplate = siteConfig.pagination.labels.pageIndicator %}
 
-<h1 class="page-title">归档</h1>
-<p class="page-subtitle">时间长河中的所有足迹。</p>
+<h1 class="page-title">{{ archiveConfig.title }}</h1>
+<p class="page-subtitle">{{ archiveConfig.subtitle }}</p>
 
 {% set currentYear = "" %}
 
@@ -28,7 +26,7 @@ permalink: "{% if pagination.pageNumber == 0 %}/archive/{% else %}/archive/page/
 
         <a href="{{ post.url }}" class="clean-item">
             <span class="clean-item-title">{{ post.data.title }}</span>
-            <span class="clean-item-meta">{{ post.date | readableDate }}</span>
+            <span class="clean-item-index">#{{ (pagination.pageNumber * siteConfig.pagination.archivePageSize) + loop.index }}</span>
         </a>
     {% endfor %}
 </div>
@@ -37,20 +35,20 @@ permalink: "{% if pagination.pageNumber == 0 %}/archive/{% else %}/archive/page/
 <div style="margin-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
     {% if pagination.pageNumber > 0 %}
     {% if pagination.pageNumber == 1 %}
-    <a href="/archive/" class="clean-link">← 上一页</a>
+    <a href="/archive/" class="clean-link">{{ previousLabel }}</a>
     {% else %}
-    <a href="/archive/page/{{ pagination.pageNumber }}/" class="clean-link">← 上一页</a>
+    <a href="/archive/page/{{ pagination.pageNumber }}/" class="clean-link">{{ previousLabel }}</a>
     {% endif %}
     {% else %}
     <span></span>
     {% endif %}
 
     <span style="font-size: 0.9rem; color: var(--text-secondary);">
-        第 {{ pagination.pageNumber + 1 }} / {{ pagination.pages.length }} 页
+        {{ pageIndicatorTemplate | replace('{current}', pagination.pageNumber + 1) | replace('{total}', pagination.pages.length) }}
     </span>
 
     {% if pagination.pageNumber + 1 < pagination.pages.length %}
-    <a href="/archive/page/{{ pagination.pageNumber + 2 }}/" class="clean-link">下一页 →</a>
+    <a href="/archive/page/{{ pagination.pageNumber + 2 }}/" class="clean-link">{{ nextLabel }}</a>
     {% else %}
     <span></span>
     {% endif %}

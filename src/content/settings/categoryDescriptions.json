@@ -1,0 +1,64 @@
+{
+  "categories": {
+    "技术": {
+      "description": "汇集前沿开发技术、架构设计与工程实践，探索代码背后的逻辑之美。"
+    },
+    "默认分类": {
+      "description": "收录暂未细分归类的文档与随笔，记录灵感与碎片化知识。"
+    },
+    "dummy-tags": {
+      "description": "暂无简介"
+    },
+    "系统测试": {
+      "description": "暂无简介"
+    },
+    "设计": {
+      "description": "暂无简介"
+    },
+    "市场调研基础": {
+      "description": "暂无简介"
+    },
+    "复购率深度挖掘": {
+      "description": "暂无简介"
+    },
+    "竞品分析方法": {
+      "description": "暂无简介"
+    },
+    "用户画像构建": {
+      "description": "暂无简介"
+    },
+    "数据采集渠道": {
+      "description": "暂无简介"
+    },
+    "Excel数据处理": {
+      "description": "暂无简介"
+    },
+    "Python数据分析": {
+      "description": "暂无简介"
+    },
+    "可视化报表设计": {
+      "description": "暂无简介"
+    },
+    "转化率优化分析": {
+      "description": "暂无简介"
+    },
+    "流量来源解析": {
+      "description": "暂无简介"
+    },
+    "电商实战": {
+      "description": "暂无简介"
+    },
+    "选品策略": {
+      "description": "暂无简介"
+    },
+    "流量增长": {
+      "description": "暂无简介"
+    },
+    "转化优化": {
+      "description": "暂无简介"
+    },
+    "用户运营": {
+      "description": "暂无简介"
+    }
+  }
+}

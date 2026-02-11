@@ -1,17 +1,17 @@
 ---
 layout: layouts/base.njk
-title: 知识库
 permalink: /categories/
 bodyClass: no-grid-page categories-page
 pageStyles:
   - /assets/css/pages/knowledge.css
 ---
+{% set categoriesConfig = siteConfig.pages.categories %}
 
 <div class="knowledge-container">
     <aside class="knowledge-sidebar">
         <h3 class="sidebar-title">
             <i class="fa-solid fa-book"></i>
-            淘宝天猫运营百科全书
+            {{ categoriesConfig.sidebarTitle }}
         </h3>
         <ul class="folder-list">
             {% for folder in collections.folderGroups %}
@@ -40,7 +40,7 @@ pageStyles:
                     <p class="knowledge-card-desc">{{ cat.description }}</p>
                     {% endif %}
                     <div class="card-footer">
-                        <span>{{ cat.count }} 篇文档</span>
+                        <span>{{ cat.count }} {{ categoriesConfig.docUnit }}</span>
                         <i class="fa-solid fa-arrow-right" style="opacity: 0.5; font-size: 0.9em;"></i>
                     </div>
                 </div>

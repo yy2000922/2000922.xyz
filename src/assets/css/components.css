@@ -47,6 +47,15 @@
     color: var(--text-secondary);
 }
 
+.clean-item-index {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    opacity: 0.55;
+    letter-spacing: 0.04em;
+    min-width: 3ch;
+    text-align: right;
+}
+
 .clean-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

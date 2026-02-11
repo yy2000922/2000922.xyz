@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 
 const CONTENT_DIR = path.join(__dirname, '../src/content/posts');
-const META_FILE = path.join(__dirname, '../src/_data/categoryMeta.json');
+const SETTINGS_DIR = path.join(__dirname, '../src/content/settings');
+const DESCRIPTIONS_FILE = path.join(SETTINGS_DIR, 'categoryDescriptions.json');
+const DEFAULT_DESCRIPTION = '暂无简介';
 
 function getAllFiles(dirPath, arrayOfFiles) {
   const files = fs.readdirSync(dirPath);
@@ -31,7 +33,7 @@ function syncMeta() {
   }
 
   const files = getAllFiles(CONTENT_DIR);
-  const foundCategories = new Set();
+  const discoveredMeta = { categories: {} };
 
   files.forEach(file => {
     const content = fs.readFileSync(file, 'utf8');
@@ -51,41 +53,79 @@ function syncMeta() {
       }
     }
 
-    const topLevelCategory = fullCategory.split('/')[0];
-    foundCategories.add(topLevelCategory);
+    discoveredMeta.categories[fullCategory] = { description: DEFAULT_DESCRIPTION };
   });
 
-  console.log(`✅ Found ${foundCategories.size} unique top-level categories:`, [...foundCategories]);
+  const foundCategories = Object.keys(discoveredMeta.categories).sort();
+  console.log(`✅ Found ${foundCategories.length} categories:`, foundCategories);
 
-  // Read existing meta
-  let meta = {};
-  if (fs.existsSync(META_FILE)) {
-    try {
-      meta = JSON.parse(fs.readFileSync(META_FILE, 'utf8'));
-    } catch (e) {
-      console.error('⚠️ Error reading existing meta file, starting fresh.');
-    }
+  if (!fs.existsSync(SETTINGS_DIR)) {
+    fs.mkdirSync(SETTINGS_DIR, { recursive: true });
   }
 
-  let updates = 0;
-  foundCategories.forEach(cat => {
-    if (!meta[cat]) {
-      console.log(`➕ Adding new category: ${cat}`);
-      meta[cat] = {
-        description: "", // Placeholder
-        title: cat
-      };
-      updates++;
+  if (!fs.existsSync(DESCRIPTIONS_FILE)) {
+    const descriptions = { categories: {} };
+    fs.writeFileSync(DESCRIPTIONS_FILE, JSON.stringify(descriptions, null, 2));
+    console.log(`📝 Created descriptions file: ${DESCRIPTIONS_FILE}`);
+  }
+
+  let descriptions = { categories: {} };
+  try {
+    descriptions = JSON.parse(fs.readFileSync(DESCRIPTIONS_FILE, 'utf8'));
+  } catch (e) {
+    console.warn(`⚠️ Failed to parse descriptions file. Recreating: ${DESCRIPTIONS_FILE}`);
+    descriptions = { categories: {} };
+  }
+
+  if (!descriptions || typeof descriptions !== 'object' || Array.isArray(descriptions)) {
+    descriptions = { categories: {} };
+  }
+  if (!descriptions.categories || typeof descriptions.categories !== 'object' || Array.isArray(descriptions.categories)) {
+    descriptions.categories = {};
+  }
+  // Single-layer model: remove stale chapters key from older format.
+  if (descriptions.chapters) delete descriptions.chapters;
+
+  let addedCategories = 0;
+  Object.keys(discoveredMeta.categories).forEach((categoryPath) => {
+    if (!descriptions.categories[categoryPath]) {
+      descriptions.categories[categoryPath] = { description: DEFAULT_DESCRIPTION };
+      addedCategories++;
     }
   });
 
-  if (updates > 0) {
-    fs.writeFileSync(META_FILE, JSON.stringify(meta, null, 2));
-    console.log(`💾 Updated categoryMeta.json with ${updates} new entries.`);
-    console.log(`👉 Please edit ${META_FILE} to add descriptions.`);
-  } else {
-    console.log('✨ No new categories found. Metadata is up to date.');
+  let normalizedCategories = 0;
+  Object.keys(descriptions.categories).forEach((categoryPath) => {
+    const value = descriptions.categories[categoryPath];
+    if (typeof value === 'string') {
+      const normalized = value.trim() || DEFAULT_DESCRIPTION;
+      descriptions.categories[categoryPath] = { description: normalized };
+      normalizedCategories++;
+      return;
+    }
+
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      descriptions.categories[categoryPath] = { description: DEFAULT_DESCRIPTION };
+      normalizedCategories++;
+      return;
+    }
+
+    const desc = typeof value.description === 'string' ? value.description.trim() : '';
+    if (!desc) {
+      descriptions.categories[categoryPath] = { description: DEFAULT_DESCRIPTION };
+      normalizedCategories++;
+      return;
+    }
+
+    descriptions.categories[categoryPath] = { description: desc };
+  });
+
+  fs.writeFileSync(DESCRIPTIONS_FILE, JSON.stringify(descriptions, null, 2));
+  if (addedCategories > 0 || normalizedCategories > 0) {
+    console.log(`🧩 Updated descriptions: added ${addedCategories}, normalized ${normalizedCategories}.`);
   }
+
+  console.log(`👉 Edit ${DESCRIPTIONS_FILE} to update descriptions.`);
 }
 
 syncMeta();

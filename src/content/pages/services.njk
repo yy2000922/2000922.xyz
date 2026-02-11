@@ -1,113 +1,50 @@
 ---
 layout: layouts/base.njk
-title: 方法论
 permalink: /services/
 pageStyles:
   - /assets/css/pages/services.css
 ---
-
+{% set servicesConfig = siteConfig.pages.services %}
 
 <div class="services-page-container">
     <header class="services-header">
         <div class="services-title-wrapper">
-            <h1>Methodology.</h1>
-            <div class="services-subtitle-bg">电商运营方法论</div>
+            <h1>{{ servicesConfig.headerTitle }}</h1>
+            <div class="services-subtitle-bg">{{ servicesConfig.subtitleBackground }}</div>
         </div>
         <div class="services-header-meta">
-            <p>从底层逻辑出发<br>构建可复制的增长模型</p>
+            <p>{{ servicesConfig.headerMetaLines[0] }}<br>{{ servicesConfig.headerMetaLines[1] }}</p>
         </div>
     </header>
 
     <div class="services-list">
-        <!-- Item 01 -->
-        <article class="service-item">
-            <div class="service-content-grid">
-                <div class="service-meta">
-                    <span class="service-number">01</span>
+        {% for item in servicesConfig.items %}
+            <article class="service-item">
+                <div class="service-content-grid">
+                    <div class="service-meta">
+                        <span class="service-number">{{ item.number }}</span>
+                    </div>
+                    <h2 class="service-title">{{ item.title }}</h2>
+                    <div class="service-desc-wrapper">
+                        <p class="service-desc">{{ item.description }}</p>
+                        {% if item.bullets and item.bullets.length %}
+                            <ul class="service-list-items">
+                                {% for bullet in item.bullets %}
+                                    <li>{{ bullet }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if item.linkText and item.linkUrl %}
+                            <a href="{{ item.linkUrl }}" class="service-faq-link">{{ item.linkText }}</a>
+                        {% endif %}
+                    </div>
                 </div>
-                <h2 class="service-title">商品管理体系</h2>
-                <div class="service-desc-wrapper">
-                    <p class="service-desc">商品是电商的核心。我们建立全生命周期的商品管理SOP，从选品逻辑到库存周转，确保货盘健康高效。</p>
-                    <ul class="service-list-items">
-                        <li>爆品挖掘与选品策略</li>
-                        <li>定价心理学与价格带布局</li>
-                        <li>动销率分析与库存优化</li>
-                    </ul>
-                </div>
-            </div>
-        </article>
-
-        <!-- Item 02 -->
-        <article class="service-item">
-            <div class="service-content-grid">
-                <div class="service-meta">
-                    <span class="service-number">02</span>
-                </div>
-                <h2 class="service-title">全渠道营销策略</h2>
-                <div class="service-desc-wrapper">
-                    <p class="service-desc">流量碎片化时代，单一渠道已难以为继。我们构建跨平台的流量矩阵，实现用户资产的有效沉淀。</p>
-                    <ul class="service-list-items">
-                        <li>内容营销与种草逻辑 (小红书/抖音)</li>
-                        <li>私域流量搭建与用户留存</li>
-                        <li>付费投流ROI优化模型</li>
-                    </ul>
-                </div>
-            </div>
-        </article>
-
-        <!-- Item 03 -->
-         <article class="service-item">
-            <div class="service-content-grid">
-                <div class="service-meta">
-                    <span class="service-number">03</span>
-                </div>
-                <h2 class="service-title">数据分析与决策</h2>
-                <div class="service-desc-wrapper">
-                    <p class="service-desc">拒绝拍脑袋决策。建立基于数据的反馈闭环，让每一次优化都有据可依。</p>
-                    <ul class="service-list-items">
-                        <li>核心指标体系搭建 (GMV拆解)</li>
-                        <li>用户行为路径分析 (Funnel)</li>
-                        <li>竞品监测与市场趋势洞察</li>
-                    </ul>
-                </div>
-            </div>
-        </article>
-
-        <!-- Item 04 -->
-        <article class="service-item">
-            <div class="service-content-grid">
-                <div class="service-meta">
-                    <span class="service-number">04</span>
-                </div>
-                <h2 class="service-title">供应链优化</h2>
-                <div class="service-desc-wrapper">
-                    <p class="service-desc">供应链是电商的护城河。优化供应端流程，降低履约成本，提升用户体验。</p>
-                    <ul class="service-list-items">
-                        <li>柔性供应链与快速返单机制</li>
-                        <li>物流成本控制与时效管理</li>
-                        <li>供应商评级与合作深度管理</li>
-                    </ul>
-                </div>
-            </div>
-        </article>
-       
-        <!-- Item 05 -->
-        <article class="service-item">
-            <div class="service-content-grid">
-                <div class="service-meta">
-                    <span class="service-number">05</span>
-                </div>
-                <h2 class="service-title">常见问题库</h2>
-                <div class="service-desc-wrapper">
-                    <p class="service-desc">在实际运营过程中，如果你遇到具体的执行难题，可以参考我们的实战FAQ库。</p>
-                    <a href="/posts/faq/" class="service-faq-link">查看实战问答 -></a>
-                </div>
-            </div>
-        </article>
+            </article>
+        {% endfor %}
     </div>
 
     <section class="cta-section">
-        <h3 class="cta-title">Ready to scale? </h3>
-        <a href="/contact/" class="cta-link">获取定制化方案 -></a>
+        <h3 class="cta-title">{{ servicesConfig.cta.title }}</h3>
+        <a href="{{ servicesConfig.cta.linkUrl }}" class="cta-link">{{ servicesConfig.cta.linkText }}</a>
     </section>
 </div>

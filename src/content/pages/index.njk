@@ -1,103 +1,64 @@
 ---
 layout: layouts/base.njk
-title: 首页
 permalink: /
 bodyClass: home-page
 pageStyles:
   - /assets/css/pages/home.css
 ---
+{% set homeConfig = siteConfig.pages.home %}
 
 <section class="hero-section">
-    <h1 class="hero-title">
-        构建系统化的电商知识体系
-    </h1>
-    <p class="hero-subtitle">
-        结构化、可迭代、长期沉淀的电商认知仓库
-    </p>
+    <h1 class="hero-title">{{ homeConfig.hero.title }}</h1>
+    <p class="hero-subtitle">{{ homeConfig.hero.subtitle }}</p>
     <p class="hero-description">
-        复盘电商运营策略、营销技巧与商业逻辑，形成可复用的知识框架。<br>
-        不依赖碎片信息，建立系统性思考。
+        {{ homeConfig.hero.descriptionLines[0] }}<br>
+        {{ homeConfig.hero.descriptionLines[1] }}
     </p>
 </section>
 
 <section class="section-block">
     <div class="section-header">
-        <h2 class="section-title">适合谁</h2>
+        <h2 class="section-title">{{ homeConfig.audience.title }}</h2>
     </div>
     <div class="who-for-grid">
-        <div class="who-for-item">
-            <i class="fa-solid fa-rocket who-for-icon"></i>
-            <div>
-                <h3 class="who-for-title">电商创业者</h3>
-                <p class="who-for-desc">系统梳理商业模式与运营策略，规避盲目试错。</p>
+        {% for item in homeConfig.audience.items %}
+            <div class="who-for-item">
+                <i class="{{ item.icon }} who-for-icon"></i>
+                <div>
+                    <h3 class="who-for-title">{{ item.title }}</h3>
+                    <p class="who-for-desc">{{ item.description }}</p>
+                </div>
             </div>
-        </div>
-        <div class="who-for-item">
-            <i class="fa-solid fa-users-gear who-for-icon"></i>
-            <div>
-                <h3 class="who-for-title">产品经理</h3>
-                <p class="who-for-desc">深入理解电商产品逻辑与用户需求，优化交易链路。</p>
-            </div>
-        </div>
-        <div class="who-for-item">
-            <i class="fa-solid fa-chart-line who-for-icon"></i>
-            <div>
-                <h3 class="who-for-title">运营操盘手</h3>
-                <p class="who-for-desc">沉淀实战经验与方法论，提升流量获取与转化效率。</p>
-            </div>
-        </div>
-        <div class="who-for-item">
-            <i class="fa-solid fa-book-open-reader who-for-icon"></i>
-            <div>
-                <h3 class="who-for-title">电商学习者</h3>
-                <p class="who-for-desc">构建完整的电商知识图谱，从零开始建立专业认知。</p>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </section>
 
 <section class="section-block">
     <div class="section-header">
-        <h2 class="section-title">核心知识模块</h2>
+        <h2 class="section-title">{{ homeConfig.features.title }}</h2>
     </div>
     <div class="features-grid">
-        <div>
-            <a href="/categories/" class="feature-item-link">
-                <h3 class="feature-title">知识框架</h3>
-                <p class="feature-desc">按商品、流量、转化、服务等维度拆解电商业务全貌。</p>
-            </a>
-        </div>
-        <div>
-            <a href="/updates/" class="feature-item-link">
-                <h3 class="feature-title">实战案例</h3>
-                <p class="feature-desc">一线操盘过程中的动态记录与关键决策复盘。</p>
-            </a>
-        </div>
-        <div>
-            <a href="/records/" class="feature-item-link">
-                <h3 class="feature-title">复盘笔记</h3>
-                <p class="feature-desc">碎片化思考的汇总，关于数据分析、竞品调研与趋势洞察。</p>
-            </a>
-        </div>
-        <div>
-            <a href="/services/" class="feature-item-link">
-                <h3 class="feature-title">方法论</h3>
-                <p class="feature-desc">经过验证的电商运营SOP与体系构建服务。</p>
-            </a>
-        </div>
+        {% for item in homeConfig.features.items %}
+            <div>
+                <a href="{{ item.url }}" class="feature-item-link">
+                    <h3 class="feature-title">{{ item.title }}</h3>
+                    <p class="feature-desc">{{ item.description }}</p>
+                </a>
+            </div>
+        {% endfor %}
     </div>
 </section>
 
 <section class="section-block closing-block">
     <div class="closing-layout">
         <div class="closing-header">
-            <h2 class="closing-label">开始构建</h2>
-            <p class="closing-headline">告别零散的经验<br>建立你的电商作战地图</p>
+            <h2 class="closing-label">{{ homeConfig.closing.label }}</h2>
+            <p class="closing-headline">{{ homeConfig.closing.headline | replace('\n', '<br>') | safe }}</p>
         </div>
         <div class="closing-content">
-            <p class="closing-desc">不仅是阅读，更是思考与实践的起点。我们提供结构化的知识索引，助你快速找到破局的关键点。</p>
-            <a class="closing-link" href="/categories/">
-                <span>浏览知识库</span>
+            <p class="closing-desc">{{ homeConfig.closing.description }}</p>
+            <a class="closing-link" href="{{ homeConfig.closing.actionUrl }}">
+                <span>{{ homeConfig.closing.actionText }}</span>
                 <i class="fa-solid fa-arrow-right-long"></i>
             </a>
         </div>

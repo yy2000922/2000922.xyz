@@ -2,7 +2,9 @@
 layout: layouts/base.njk
 bodyClass: no-grid-page post-page
 pageStyles:
-  - /assets/css/pages/post.css
+  - /assets/css/alerts.css?v=20260211-1
+  - /assets/css/code.css?v=20260211-1
+  - /assets/css/pages/post.css?v=20260211-1
 ---
 
 <article class="post-container">
@@ -12,9 +14,17 @@ pageStyles:
             {% if category %}
             <a href="/categories/{{ category }}/" style="margin-right: 15px; color: var(--accent); text-decoration: none; font-weight: 500;">{{ category }}</a>
             {% endif %}
-            <time datetime="{{ date | htmlDateString }}">{{ date | readableDate }}</time>
         </div>
     </header>
+
+    <details class="post-toc-mobile is-hidden">
+        <summary>文章目录</summary>
+        <ol class="post-toc-list" id="post-toc-mobile-list"></ol>
+    </details>
+
+    <nav class="post-toc post-toc-desktop is-hidden" aria-label="文章目录">
+        <ol class="post-toc-list" id="post-toc-list"></ol>
+    </nav>
 
     <div class="post-content">
         {{ content | safe }}

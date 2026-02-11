@@ -78,6 +78,205 @@ const initPostActions = () => {
     };
 };
 
+const initPostToc = () => {
+    const content = document.querySelector(".post-content");
+    const desktopToc = document.querySelector(".post-toc-desktop");
+    const mobileToc = document.querySelector(".post-toc-mobile");
+    const desktopList = document.querySelector("#post-toc-list");
+    const mobileList = document.querySelector("#post-toc-mobile-list");
+
+    if (!content || !desktopToc || !mobileToc || !desktopList || !mobileList) {
+        return () => {};
+    }
+
+    const headings = Array.from(content.querySelectorAll("h2, h3"));
+    if (headings.length < 4) {
+        return () => {};
+    }
+
+    desktopToc.classList.remove("is-hidden");
+    mobileToc.classList.remove("is-hidden");
+
+    const usedIds = new Set();
+    const slugify = (text, fallback) => {
+        const value = (text || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[^\p{L}\p{N}\s-]/gu, "")
+            .replace(/\s+/g, "-")
+            .replace(/-+/g, "-")
+            .replace(/^-|-$/g, "");
+        return value || fallback;
+    };
+
+    const ensureId = (heading, index) => {
+        if (heading.id) {
+            usedIds.add(heading.id);
+            return heading.id;
+        }
+        let base = slugify(heading.textContent, `section-${index + 1}`);
+        let candidate = base;
+        let counter = 2;
+        while (usedIds.has(candidate)) {
+            candidate = `${base}-${counter}`;
+            counter += 1;
+        }
+        heading.id = candidate;
+        usedIds.add(candidate);
+        return candidate;
+    };
+
+    const allLinks = [];
+    const buildListItem = (heading, index) => {
+        const id = ensureId(heading, index);
+        const li = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `#${id}`;
+        link.textContent = heading.textContent.trim();
+        link.className = `post-toc-link level-${heading.tagName.toLowerCase() === "h3" ? "3" : "2"}`;
+        link.dataset.targetId = id;
+        li.appendChild(link);
+        allLinks.push(link);
+        return li;
+    };
+
+    headings.forEach((heading, index) => {
+        desktopList.appendChild(buildListItem(heading, index));
+    });
+
+    headings.forEach((heading, index) => {
+        mobileList.appendChild(buildListItem(heading, index));
+    });
+
+    let currentActiveId = "";
+    const activateLink = (id) => {
+        if (!id || id === currentActiveId) {
+            return;
+        }
+        currentActiveId = id;
+        allLinks.forEach((link) => {
+            link.classList.toggle("is-active", link.dataset.targetId === id);
+        });
+        const activeDesktopLink = desktopList.querySelector(`.post-toc-link.is-active[data-target-id="${id}"]`);
+        if (activeDesktopLink) {
+            activeDesktopLink.scrollIntoView({ block: "nearest", inline: "nearest" });
+        }
+    };
+
+    const nav = document.querySelector(".site-nav");
+    const actionWrap = document.querySelector(".post-actions");
+    const footer = document.querySelector("footer");
+    const updateDesktopTocMaxHeight = () => {
+        const items = Array.from(desktopList.children);
+        if (!items.length) {
+            return;
+        }
+        const visibleCount = Math.min(10, items.length);
+        const itemsHeight = items
+            .slice(0, visibleCount)
+            .reduce((total, item) => total + item.getBoundingClientRect().height, 0);
+        const tocStyles = getComputedStyle(desktopToc);
+        const paddingTop = Number.parseFloat(tocStyles.paddingTop) || 0;
+        const paddingBottom = Number.parseFloat(tocStyles.paddingBottom) || 0;
+        const maxHeight = Math.ceil(itemsHeight + paddingTop + paddingBottom + 2);
+        desktopToc.style.setProperty("--post-toc-max-height", `${maxHeight}px`);
+    };
+    const updateDesktopTocPosition = () => {
+        const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+        const baseCenterY = window.innerHeight * 0.54 + rootFontSize * 4.8;
+        const tocHeight = desktopToc.offsetHeight;
+        const minCenterY = tocHeight / 2 + 12;
+        let nextCenterY = Math.max(minCenterY, baseCenterY);
+        const footerTop = footer ? footer.getBoundingClientRect().top : Number.POSITIVE_INFINITY;
+        const nearBottom = footerTop <= window.innerHeight + tocHeight * 0.35;
+
+        if (nearBottom) {
+            let maxCenterY = window.innerHeight - tocHeight / 2 - 12;
+            if (actionWrap) {
+                const actionTop = actionWrap.getBoundingClientRect().top;
+                maxCenterY = Math.min(maxCenterY, actionTop - 12 - tocHeight / 2);
+            }
+            maxCenterY = Math.min(maxCenterY, footerTop - 16 - tocHeight / 2);
+            nextCenterY = Math.max(minCenterY, Math.min(nextCenterY, maxCenterY));
+        }
+
+        desktopToc.style.setProperty("--post-toc-top", `${Math.round(nextCenterY)}px`);
+    };
+    const updateActiveByScroll = () => {
+        if (!headings.length) {
+            return;
+        }
+        const markerY = window.scrollY + window.innerHeight * 0.68;
+        let activeId = headings[0].id;
+
+        headings.forEach((heading) => {
+            const headingTop = heading.getBoundingClientRect().top + window.scrollY;
+            if (headingTop <= markerY) {
+                activeId = heading.id;
+            }
+        });
+
+        const doc = document.documentElement;
+        const atBottom = Math.ceil(window.scrollY + window.innerHeight) >= doc.scrollHeight;
+        if (atBottom) {
+            activeId = headings[headings.length - 1].id;
+        }
+        activateLink(activeId);
+    };
+    const getOffsetTop = (target) => {
+        const navHeight = nav ? nav.offsetHeight : 0;
+        return target.getBoundingClientRect().top + window.scrollY - navHeight - 18;
+    };
+
+    const handleClick = (event) => {
+        const link = event.target.closest(".post-toc-link");
+        if (!link) {
+            return;
+        }
+        const target = document.getElementById(link.dataset.targetId);
+        if (!target) {
+            return;
+        }
+        event.preventDefault();
+        window.scrollTo({
+            top: getOffsetTop(target),
+            behavior: "smooth"
+        });
+        activateLink(link.dataset.targetId);
+        if (mobileToc.open) {
+            mobileToc.open = false;
+        }
+    };
+
+    desktopList.addEventListener("click", handleClick);
+    mobileList.addEventListener("click", handleClick);
+
+    if (headings[0]?.id) {
+        activateLink(headings[0].id);
+    }
+    updateDesktopTocMaxHeight();
+    updateDesktopTocPosition();
+    updateActiveByScroll();
+    const handleDesktopTocResize = () => {
+        updateDesktopTocMaxHeight();
+        updateDesktopTocPosition();
+        updateActiveByScroll();
+    };
+    const handleDesktopTocScroll = () => {
+        updateDesktopTocPosition();
+        updateActiveByScroll();
+    };
+    window.addEventListener("scroll", handleDesktopTocScroll, { passive: true });
+    window.addEventListener("resize", handleDesktopTocResize);
+
+    return () => {
+        desktopList.removeEventListener("click", handleClick);
+        mobileList.removeEventListener("click", handleClick);
+        window.removeEventListener("scroll", handleDesktopTocScroll);
+        window.removeEventListener("resize", handleDesktopTocResize);
+    };
+};
+
 const initNavVisibility = () => {
     const siteNav = document.querySelector(".site-nav");
     if (!siteNav) {
@@ -399,6 +598,7 @@ const initPage = () => {
     }
     removeAnimationArtifacts();
     pageCleanups.push(initPostActions());
+    pageCleanups.push(initPostToc());
     pageCleanups.push(initNavVisibility());
     pageCleanups.push(initNavTransparency());
     pageCleanups.push(initGridDots());

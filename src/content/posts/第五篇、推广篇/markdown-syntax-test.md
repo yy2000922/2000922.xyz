@@ -119,7 +119,7 @@ fn main() {
 ### 超链接
 - [访问 Eleventy 官网](https://www.11ty.dev/)
 - [回到首页](/)
-- 一个裸链接：https://deepwhitex.dev
+- 一个裸链接：https://2000922.xyz
 
 ---
 
@@ -223,4 +223,3 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor i
 ```
 这是一个非常长的单行代码块，用来测试代码块的横向滚动条是否正常工作。如果你看到了滚动条，说明样式设置正确。
 ```
-
