@@ -1,6 +1,6 @@
 const passthroughPaths = [
-  "src/assets",
-  "src/static"
+  { "src/assets": "assets" },
+  { "src/static": "/" }
 ];
 
 module.exports = { passthroughPaths };

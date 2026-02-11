@@ -205,12 +205,12 @@
     */
 }
 
-/* Size System Classes */
+/* Size System Classes - Optimized for Balance */
 .tag-size-1 { font-size: 0.85rem; padding: 0.4em 0.8em; opacity: 0.85; }
 .tag-size-2 { font-size: 1.0rem; padding: 0.5em 1.0em; opacity: 0.9; }
 .tag-size-3 { font-size: 1.2rem; padding: 0.6em 1.2em; }
 .tag-size-4 { font-size: 1.5rem; padding: 0.7em 1.4em; }
-.tag-size-5 { font-size: 2.0rem; padding: 0.8em 1.6em; letter-spacing: -0.02em; }
+.tag-size-5 { font-size: 1.75rem; padding: 0.75em 1.5em; letter-spacing: -0.015em; } /* Reduced from 2.0rem to 1.75rem */
 
 /* Variant: Solid */
 .tag-cloud-link.tag-solid {
