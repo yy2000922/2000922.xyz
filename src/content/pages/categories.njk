@@ -12,24 +12,24 @@ pageStyles:
             <i class="fa-solid fa-book"></i>
             淘宝天猫运营百科全书
         </h3>
-        <ul class="directory-list">
-            {% for dir in collections.directoriesList %}
-            <li class="directory-item {% if loop.first %}active{% endif %}" onclick="switchTab('dir-{{ loop.index }}', this)">
-                <i class="fa-solid fa-file-lines directory-icon"></i>
-                {{ dir.title }}
+        <ul class="folder-list">
+            {% for folder in collections.folderGroups %}
+            <li class="folder-item {% if loop.first %}active{% endif %}" onclick="switchTab('folder-{{ loop.index }}', this)">
+                <i class="fa-solid fa-file-lines folder-icon"></i>
+                {{ folder.title }}
             </li>
             {% endfor %}
         </ul>
     </aside>
 
     <main class="knowledge-content">
-        {% for dir in collections.directoriesList %}
-        <div id="dir-{{ loop.index }}" class="directory-section {% if loop.first %}active{% endif %}">
+        {% for folder in collections.folderGroups %}
+        <div id="folder-{{ loop.index }}" class="folder-section {% if loop.first %}active{% endif %}">
             <div class="section-header">
-                <h2>{{ dir.title }}</h2>
+                <h2>{{ folder.title }}</h2>
             </div>
             <div class="cards-grid">
-                {% for cat in dir.categories %}
+                {% for cat in folder.categories %}
                 <div class="clean-card" onclick="if(!event.target.closest('a')) window.location.href='{{ cat.url }}'" style="cursor: pointer;">
                     <h3><a href="{{ cat.url }}" style="text-decoration: none; color: inherit;">{{ cat.title }}</a></h3>
                     {% if cat.description %}
@@ -50,10 +50,10 @@ pageStyles:
 <script>
 function switchTab(targetId, element) {
     // Remove active class from all items
-    document.querySelectorAll('.directory-item').forEach(item => {
+    document.querySelectorAll('.folder-item').forEach(item => {
         item.classList.remove('active');
     });
-    document.querySelectorAll('.directory-section').forEach(section => {
+    document.querySelectorAll('.folder-section').forEach(section => {
         section.classList.remove('active');
     });
 

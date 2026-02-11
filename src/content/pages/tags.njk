@@ -7,30 +7,46 @@ permalink: /tags/
 <h1 class="page-title">标签</h1>
 <p class="page-subtitle">使用标签探索更细粒度的内容。</p>
 
-<div style="margin-bottom: 50px; display: flex; flex-wrap: wrap; gap: 15px;">
+<div style="margin-bottom: 50px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding: 40px 20px;">
     {% for tag, posts in collections %}
-        {% if tag != "posts" and tag != "all" and tag != "categories" and tag != "categoriesList" and tag != "directoriesList" and tag != "categoryPages" %}
-        <a href="#{{ tag }}" class="tag-cloud-link" style="--tag-hue: {{ tag | stringToHue }};">
-            #{{ tag }} <span class="tag-cloud-count">{{ posts.length }}</span>
-        </a>
+        {% if tag != "posts" and tag != "all" and tag != "categories" and tag != "categoriesList" and tag != "folderGroups" and tag != "categoryPages" and tag != "tagPages" %}
+            {% set hue = tag | stringToHue %}
+            {# Deterministic pseudo-randomness #}
+            {% set variantMod = hue % 3 %}
+            
+            {# Random horizontal spacing #}
+            {% set marginR = 10 + (hue % 26) %}
+            {% set marginL = 5 + ((hue * 3) % 15) %}
+            
+            {# Vertical breathing #}
+            {% set translateY = ((hue * 7) % 7) - 3 %}
+            
+            {# Size System Logic #}
+            {% set count = posts.length %}
+            {% set sizeClass = "tag-size-1" %}
+            {% if count >= 16 %}
+                {% set sizeClass = "tag-size-5" %}
+            {% elif count >= 9 %}
+                {% set sizeClass = "tag-size-4" %}
+            {% elif count >= 4 %}
+                {% set sizeClass = "tag-size-3" %}
+            {% elif count >= 2 %}
+                {% set sizeClass = "tag-size-2" %}
+            {% endif %}
+            
+            <a href="/tags/{{ tag }}/" 
+               class="tag-cloud-link {{ sizeClass }} {% if variantMod == 0 %}tag-soft{% elif variantMod == 1 %}tag-outline{% else %}tag-solid{% endif %}" 
+               style="
+                   --tag-hue: {{ hue }}; 
+                   transform: translateY({{ translateY }}px);
+                   margin-right: {{ marginR }}px;
+                   margin-left: {{ marginL }}px;
+                   margin-bottom: 25px;
+               ">
+                #{{ tag }} <span class="tag-cloud-count">{{ count }}</span>
+            </a>
         {% endif %}
     {% endfor %}
 </div>
 
-<div class="clean-list">
-    {% for tag, posts in collections %}
-        {% if tag != "posts" and tag != "all" and tag != "categories" and tag != "categoriesList" and tag != "directoriesList" and tag != "categoryPages" %}
-        <div id="{{ tag }}" style="margin-bottom: 40px;">
-            <h3 class="tag-header" style="--tag-hue: {{ tag | stringToHue }};">#{{ tag }}</h3>
-            <div class="clean-list no-border-top" style="border-top: none;">
-                {% for post in posts | reverse %}
-                <a href="{{ post.url }}" class="clean-item">
-                    <span class="clean-item-title">{{ post.data.title }}</span>
-                    <span class="clean-item-meta">{{ post.date | readableDate }}</span>
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-    {% endfor %}
-</div>
+{# Detailed list removed in favor of paginated tag pages #}

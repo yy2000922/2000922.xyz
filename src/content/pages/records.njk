@@ -10,7 +10,7 @@ pageStyles:
 <p class="page-subtitle">碎片化的思考汇总。关于市场洞察、数据分析与竞品调研。</p>
 
 <div class="clean-list">
-    {% for post in collections.posts %}
+    {% for post in collections.posts.slice(0, 8) %}
     <a href="{{ post.url }}" class="clean-item">
         <span class="clean-item-title">{{ post.data.title }}</span>
         <span class="clean-item-meta">{{ post.date | readableDate }}</span>

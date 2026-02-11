@@ -10,12 +10,24 @@ if (!fs.existsSync(META_FILE)) {
 }
 
 function getPosts() {
-    // Check if directory exists
     if (!fs.existsSync(POSTS_DIR)) return [];
-    
-    return fs.readdirSync(POSTS_DIR)
-        .filter(f => f.endsWith('.md'))
-        .map(f => path.join(POSTS_DIR, f));
+
+    const result = [];
+    const walk = (dir) => {
+        fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
+            const fullPath = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+                walk(fullPath);
+                return;
+            }
+            if (entry.isFile() && entry.name.endsWith('.md')) {
+                result.push(fullPath);
+            }
+        });
+    };
+
+    walk(POSTS_DIR);
+    return result;
 }
 
 function parseFrontMatter(content) {

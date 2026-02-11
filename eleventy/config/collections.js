@@ -1,17 +1,132 @@
 const fs = require('fs');
 const path = require('path');
 
+function getFolderNameFromPostPath(item) {
+  const inputPath = item && item.inputPath ? item.inputPath : '';
+  if (!inputPath) return "其他";
+
+  const normalizedPath = inputPath.split(path.sep).join('/');
+  const marker = '/src/content/posts/';
+  const markerIndex = normalizedPath.indexOf(marker);
+
+  if (markerIndex === -1) return "其他";
+
+  const relativePath = normalizedPath.slice(markerIndex + marker.length);
+  const segments = relativePath.split('/').filter(Boolean);
+
+  // If a file is directly under posts/, place it in the fallback folder.
+  if (segments.length <= 1) return "其他";
+
+  return segments[0];
+}
+
+function getCategoryPathFromPost(item) {
+  const rawCategory = item && item.data && typeof item.data.category === 'string'
+    ? item.data.category.trim()
+    : '';
+  if (rawCategory) return rawCategory;
+
+  const folder = getFolderNameFromPostPath(item);
+  if (folder && folder !== "其他") return folder;
+
+  return "默认分类";
+}
+
+function hasPostsTag(item) {
+  const tags = item && item.data ? item.data.tags : null;
+  if (!tags) return false;
+  if (Array.isArray(tags)) return tags.includes("posts");
+  if (typeof tags === "string") return tags === "posts";
+  return false;
+}
+
+function getPostsFromContentDir(collectionApi) {
+  return collectionApi
+    .getAll()
+    .filter((item) => {
+      if (!item || !item.inputPath) return false;
+      const normalizedPath = item.inputPath.split(path.sep).join('/');
+      const isPostFile = normalizedPath.includes('/src/content/posts/') && normalizedPath.endsWith('.md');
+      if (!isPostFile) return false;
+
+      // Keep the "posts" tag convention; fallback only when tags are missing.
+      const tags = item.data ? item.data.tags : null;
+      if (!tags || (Array.isArray(tags) && tags.length === 0)) return true;
+      return hasPostsTag(item);
+    })
+    .sort((a, b) => b.date - a.date);
+}
+
+function loadCategoryMeta() {
+  try {
+    const metaPath = path.join(process.cwd(), 'src/_data/categoryMeta.json');
+    if (fs.existsSync(metaPath)) {
+      return JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+    }
+  } catch (e) {
+    console.warn("Could not load category metadata:", e);
+  }
+  return {};
+}
+
+function buildCategoryNodes(posts, meta) {
+  const nodes = {};
+
+  posts.forEach((item) => {
+    const category = getCategoryPathFromPost(item);
+
+    const parts = category.split('/');
+    let currentPath = '';
+
+    parts.forEach((part, index) => {
+      currentPath = currentPath ? `${currentPath}/${part}` : part;
+
+      if (!nodes[currentPath]) {
+        nodes[currentPath] = {
+          key: currentPath,
+          title: part,
+          name: part,
+          posts: [],
+          children: [],
+          parent: index > 0 ? parts.slice(0, index).join('/') : null,
+          meta: {}
+        };
+      }
+
+      if (index === parts.length - 1) {
+        nodes[currentPath].posts.push(item);
+      }
+    });
+  });
+
+  Object.keys(nodes).forEach((key) => {
+    const node = nodes[key];
+
+    if (node.parent && nodes[node.parent]) {
+      if (!nodes[node.parent].children.includes(key)) {
+        nodes[node.parent].children.push(key);
+      }
+    }
+
+    if (meta[key]) {
+      node.meta = meta[key];
+      if (meta[key].title) node.title = meta[key].title;
+    }
+  });
+
+  return nodes;
+}
+
 function registerCollections(eleventyConfig) {
   eleventyConfig.addCollection("posts", (collectionApi) =>
-    collectionApi.getFilteredByTag("posts").sort((a, b) => b.date - a.date)
+    getPostsFromContentDir(collectionApi)
   );
 
   eleventyConfig.addCollection("categories", (collectionApi) => {
     const categories = {};
 
-    collectionApi.getFilteredByTag("posts").forEach((item) => {
-      const category = item.data.category;
-      if (!category) return;
+    getPostsFromContentDir(collectionApi).forEach((item) => {
+      const category = getCategoryPathFromPost(item);
 
       // Handle hierarchy
       const parts = category.split('/');
@@ -37,128 +152,157 @@ function registerCollections(eleventyConfig) {
   });
 
   eleventyConfig.addCollection("categoriesList", (collectionApi) => {
-    const nodes = {};
-    const posts = collectionApi.getFilteredByTag("posts");
-    
-    // Load metadata if available
-    let meta = {};
-    try {
-        const metaPath = path.join(process.cwd(), 'src/_data/categoryMeta.json');
-        if (fs.existsSync(metaPath)) {
-            meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-        }
-    } catch (e) {
-        console.warn("Could not load category metadata:", e);
-    }
-
-    // 1. Create nodes for all levels
-    posts.forEach((item) => {
-      const category = item.data.category;
-      if (!category) return;
-
-      const parts = category.split('/');
-      let currentPath = '';
-      
-      parts.forEach((part, index) => {
-        currentPath = currentPath ? `${currentPath}/${part}` : part;
-        
-        if (!nodes[currentPath]) {
-          nodes[currentPath] = {
-            key: currentPath,
-            title: part, // Display name (last segment)
-            name: part,
-            posts: [],
-            children: [], // Sub-categories
-            parent: index > 0 ? parts.slice(0, index).join('/') : null
-          };
-        }
-        
-        // Add post to the leaf node
-        if (index === parts.length - 1) {
-          nodes[currentPath].posts.push(item);
-        }
-      });
-    });
-
-    // 2. Build hierarchy (children pointers) and enrich with meta
-    Object.keys(nodes).forEach(key => {
-      const node = nodes[key];
-      
-      // Add to parent's children list
-      if (node.parent && nodes[node.parent]) {
-        if (!nodes[node.parent].children.includes(key)) {
-          nodes[node.parent].children.push(key);
-        }
-      }
-      
-      // Enrich with metadata
-      if (meta[key]) {
-        node.meta = meta[key];
-        if (meta[key].title) node.title = meta[key].title; // Override title if needed
-      }
-    });
-
+    const posts = getPostsFromContentDir(collectionApi);
+    const meta = loadCategoryMeta();
+    const nodes = buildCategoryNodes(posts, meta);
     return Object.values(nodes);
   });
 
-  eleventyConfig.addCollection("directoriesList", (collectionApi) => {
-    const directories = {};
-    const posts = collectionApi.getFilteredByTag("posts");
+  eleventyConfig.addCollection("categoryPages", (collectionApi) => {
+    const posts = getPostsFromContentDir(collectionApi);
+    const meta = loadCategoryMeta();
+    const nodes = buildCategoryNodes(posts, meta);
+    const pageSize = 10;
+    const pages = [];
 
-    // Load metadata
-    let meta = {};
-    try {
-        const metaPath = path.join(process.cwd(), 'src/_data/categoryMeta.json');
-        if (fs.existsSync(metaPath)) {
-            meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-        }
-    } catch (e) {
-        console.warn("Could not load category metadata:", e);
-    }
+    Object.values(nodes).forEach((node) => {
+      const sortedPosts = [...node.posts].sort((a, b) => b.date - a.date);
+      const totalPages = Math.max(1, Math.ceil(sortedPosts.length / pageSize));
+      const baseUrl = `/categories/${node.key}/`;
+      const parts = node.key.split('/');
+      const breadcrumbs = [];
+      let parentPath = '';
 
-    // 1. First build the category nodes (simplified logic from categoriesList)
+      for (let i = 0; i < parts.length - 1; i++) {
+        parentPath = parentPath ? `${parentPath}/${parts[i]}` : parts[i];
+        const parentNode = nodes[parentPath];
+        breadcrumbs.push({
+          title: parentNode ? parentNode.title : parts[i],
+          url: `/categories/${parentPath}/`
+        });
+      }
+
+      const children = node.children
+        .map((childKey) => {
+          const child = nodes[childKey];
+          return {
+            title: child.title,
+            url: `/categories/${childKey}/`,
+            count: child.posts.length
+          };
+        })
+        .sort((a, b) => a.title.localeCompare(b.title, 'zh-Hans-CN'));
+
+      for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+        const start = (pageNumber - 1) * pageSize;
+        const end = start + pageSize;
+        const pagePosts = sortedPosts.slice(start, end);
+        const url = pageNumber === 1 ? baseUrl : `${baseUrl}page/${pageNumber}/`;
+
+        pages.push({
+          key: node.key,
+          title: node.title,
+          url,
+          baseUrl,
+          pageNumber,
+          totalPages,
+          count: sortedPosts.length,
+          posts: pagePosts,
+          children,
+          breadcrumbs,
+          meta: node.meta || {}
+        });
+      }
+    });
+
+    return pages;
+  });
+
+  eleventyConfig.addCollection("tagPages", (collectionApi) => {
+    const posts = getPostsFromContentDir(collectionApi);
+    const tags = {};
+    const pageSize = 20;
+    const pages = [];
+
+    posts.forEach((post) => {
+      if (post.data.tags) {
+        post.data.tags.forEach((tag) => {
+          if (tag === "posts") return;
+          if (!tags[tag]) tags[tag] = [];
+          tags[tag].push(post);
+        });
+      }
+    });
+
+    Object.keys(tags).forEach((tag) => {
+      const sortedPosts = tags[tag].sort((a, b) => b.date - a.date);
+      const totalPages = Math.max(1, Math.ceil(sortedPosts.length / pageSize));
+      const baseUrl = `/tags/${tag}/`;
+
+      for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+        const start = (pageNumber - 1) * pageSize;
+        const end = start + pageSize;
+        const pagePosts = sortedPosts.slice(start, end);
+        const url = pageNumber === 1 ? baseUrl : `${baseUrl}page/${pageNumber}/`;
+
+        pages.push({
+          tag: tag,
+          title: tag,
+          url: url,
+          baseUrl: baseUrl,
+          pageNumber: pageNumber,
+          totalPages: totalPages,
+          posts: pagePosts,
+          count: sortedPosts.length
+        });
+      }
+    });
+
+    return pages;
+  });
+
+  eleventyConfig.addCollection("folderGroups", (collectionApi) => {
+    const folders = {};
+    const posts = getPostsFromContentDir(collectionApi);
+
+    const meta = loadCategoryMeta();
+
+    // 1. Build category nodes per (folder + top-level category)
     const categoryNodes = {};
     
     posts.forEach((item) => {
-        const category = item.data.category;
-        if (!category) return;
+        const category = getCategoryPathFromPost(item);
         
-        // We only care about top-level categories for the directory mapping
         const topLevelCategory = category.split('/')[0];
-        
-        if (!categoryNodes[topLevelCategory]) {
-            categoryNodes[topLevelCategory] = {
+        const folder = getFolderNameFromPostPath(item);
+        const nodeKey = `${folder}::${topLevelCategory}`;
+
+        if (!categoryNodes[nodeKey]) {
+            categoryNodes[nodeKey] = {
                 title: topLevelCategory,
-                url: `/categories/${topLevelCategory}/`, // Assuming standard URL structure
+                url: `/categories/${topLevelCategory}/`,
                 count: 0,
                 posts: [],
-                directory: null,
+                folder,
                 description: meta[topLevelCategory] ? meta[topLevelCategory].description : ''
             };
         }
         
-        categoryNodes[topLevelCategory].count++;
-        categoryNodes[topLevelCategory].posts.push(item);
-        
-        // Map category to directory based on posts
-        // We assume all posts in a category belong to the same directory
-        // or we take the most frequent one / first one found
-        if (item.data.directory && !categoryNodes[topLevelCategory].directory) {
-            categoryNodes[topLevelCategory].directory = item.data.directory;
-        }
+        categoryNodes[nodeKey].count++;
+        categoryNodes[nodeKey].posts.push(item);
     });
 
-    // 2. Group categories by directory
+    // 2. Group categories by folder
     Object.values(categoryNodes).forEach(node => {
-        const dir = node.directory || "其他"; // Fallback for categories without directory
-        
-        if (!directories[dir]) {
-            directories[dir] = {
-                title: dir,
+        const folder = node.folder;
+
+        if (!folders[folder]) {
+            folders[folder] = {
+                title: folder,
                 categories: []
             };
         }
-        directories[dir].categories.push(node);
+        folders[folder].categories.push(node);
     });
 
     // Convert to array and sort
@@ -175,14 +319,22 @@ function registerCollections(eleventyConfig) {
         "第十篇": 10
     };
     
-    return Object.values(directories).sort((a, b) => {
+    return Object.values(folders).sort((a, b) => {
         const getOrder = (title) => {
             for (const key in order) {
-                if (title.startsWith(key)) return order[key];
+                if (title && title.startsWith(key)) return order[key];
             }
             return 999;
         };
-        return getOrder(a.title) - getOrder(b.title);
+        const orderA = getOrder(a.title);
+        const orderB = getOrder(b.title);
+        
+        if (orderA !== orderB) {
+            return orderA - orderB;
+        }
+        
+        // If same order (or both unknown), sort alphabetically
+        return a.title.localeCompare(b.title);
     });
   });
 }

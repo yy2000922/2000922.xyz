@@ -19,7 +19,7 @@
 .sidebar-title {
     margin-top: 0;
     margin-bottom: 20px;
-    padding-left: 12px; /* Aligned with directory items */
+    padding-left: 12px; /* Aligned with folder items */
     font-size: 1.2rem;
     color: var(--text-primary);
     line-height: 1.4;
@@ -36,13 +36,13 @@
     font-size: 0.9em;
 }
 
-.directory-list {
+.folder-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.directory-item {
+.folder-item {
     position: relative;
     display: flex;
     align-items: center;
@@ -55,7 +55,7 @@
     border-radius: 6px;
 }
 
-.directory-icon {
+.folder-icon {
     width: 24px;
     text-align: center;
     margin-right: 6px;
@@ -64,33 +64,33 @@
     transition: all 0.2s ease;
 }
 
-.directory-item:hover .directory-icon,
-.directory-item.active .directory-icon {
+.folder-item:hover .folder-icon,
+.folder-item.active .folder-icon {
     opacity: 1;
 }
 
-.directory-item.active .directory-icon {
+.folder-item.active .folder-icon {
     color: var(--accent-color);
 }
 
-.directory-item:hover {
+.folder-item:hover {
     color: var(--text-primary, #fff);
     background: var(--bg-secondary, rgba(255, 255, 255, 0.05));
 }
 
-.directory-item.active {
+.folder-item.active {
     color: var(--accent-color);
     background: color-mix(in srgb, var(--accent-color), transparent 85%);
     font-weight: 600;
     border-radius: 8px; 
 }
 
-[data-theme="light"] .directory-item.active {
+[data-theme="light"] .folder-item.active {
     color: var(--text-primary);
     background: rgba(0, 0, 0, 0.06);
 }
 
-[data-theme="light"] .directory-item.active .directory-icon {
+[data-theme="light"] .folder-item.active .folder-icon {
     color: inherit;
 }
 
@@ -102,13 +102,13 @@
     padding-left: 0;
 }
 
-.directory-section {
+.folder-section {
     display: none;
     animation: fadeIn 0.3s ease;
     margin-top: 0;
 }
 
-.directory-section.active {
+.folder-section.active {
     display: block;
 }
 
@@ -128,13 +128,19 @@
 
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 15px; /* Reduced from 20px */
+}
+
+@media (max-width: 1400px) {
+    .cards-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 1024px) {
     .cards-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
