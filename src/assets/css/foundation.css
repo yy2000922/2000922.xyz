@@ -19,6 +19,7 @@
     
     --glass-bg: rgba(5, 5, 5, 0.9);
     --glass-border: rgba(255, 255, 255, 0.15);
+    --page-grid-line: rgba(255, 255, 255, 0.08);
     --hover-bg: rgba(255, 255, 255, 0.1);
     --nav-bg: rgba(5, 5, 5, 0.95);
 
@@ -60,6 +61,7 @@
     --accent-subtle: #E5E7EB; /* Gray 200 */
     --glass-bg: rgba(255, 255, 255, 0.9);
     --glass-border: rgba(0, 0, 0, 0.06);
+    --page-grid-line: rgba(0, 0, 0, 0.035);
     --hover-bg: rgba(0, 0, 0, 0.04);
     --nav-bg: rgba(249, 250, 251, 0.95);
     
@@ -104,6 +106,25 @@ body {
     min-height: 100vh;
     line-height: 1.6;
     /* transition: background-color 0.3s ease, color 0.3s ease; -- Removed, handled by .theme-transition */
+}
+
+/* 仅非首页使用的方格背景 */
+body:not(.home-page)::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image:
+        linear-gradient(var(--page-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--page-grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: center top;
+    z-index: -1;
+    mask-image: none;
+    -webkit-mask-image: none;
+    pointer-events: none;
 }
 
 /* Global Smooth Theme Transition */

@@ -184,13 +184,13 @@ const initGridDots = () => {
         // Use document.documentElement.clientWidth to exclude scrollbar width, matching CSS "width: 100%" behavior
         const cssWidth = document.documentElement.clientWidth;
         const centerX = cssWidth / 2;
-        
+
         // CSS Grid aligns center of 60px tile (30px) to center of screen.
         // The vertical line is at 0px (left) of the tile.
         // So the line is at: Center - 30px.
         // We add 0.5px to center the dot on the 1px wide line.
         const firstLineX = centerX - 30 + 0.5;
-        
+
         // Find the first visible line X coordinate
         const startX = ((firstLineX % gridSize) + gridSize) % gridSize;
 
@@ -204,10 +204,10 @@ const initGridDots = () => {
                     y,
                     maxOpacity: 0.3 + Math.random() * 0.4,
                     // State machine: 0=WAITING, 1=FADING_IN, 2=VISIBLE, 3=FADING_OUT
-                    state: 0, 
+                    state: 0,
                     // Initial random delay before first blink
                     timer: Math.random() * 10000,
-                    
+
                     // Durations (ms)
                     fadeInDuration: 1500,
                     stayDuration: 2500 + Math.random() * 1500, // Stay for 2.5s - 4s
@@ -222,17 +222,17 @@ const initGridDots = () => {
         // Match the width calculation to the CSS container
         // body::before is absolute, usually relative to viewport (excluding scrollbar)
         const cssWidth = document.documentElement.clientWidth;
-        
+
         width = cssWidth;
         height = window.innerHeight * 1.45;
-        
+
         const dpr = window.devicePixelRatio || 1;
         canvas.width = width * dpr;
         canvas.height = height * dpr;
         ctx.scale(dpr, dpr);
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
-        
+
         initDots();
     };
 
@@ -247,8 +247,8 @@ const initGridDots = () => {
 
         // Clear logic for transparent canvas
         ctx.clearRect(0, 0, width, height);
-        
-        dots.forEach(dot => {
+
+        dots.forEach((dot) => {
             dot.timer -= dt;
 
             // State transition logic
@@ -293,7 +293,7 @@ const initGridDots = () => {
             ctx.arc(dot.x, dot.y, 2, 0, Math.PI * 2);
             ctx.fill();
         });
-        
+
         rafId = requestAnimationFrame(draw);
     };
 

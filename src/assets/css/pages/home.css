@@ -1,7 +1,7 @@
 .hero-section { margin-bottom: 80px; }
 
 /* 首页首屏巨大方格背景 */
-body::before {
+body.home-page::before {
     content: "";
     position: absolute;
     top: 0;

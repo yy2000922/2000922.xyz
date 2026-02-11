@@ -48,7 +48,7 @@ const config = {
         ]
     },
     footer: {
-        copyrightOwner: "EcomInsight.dev",
+        copyrightOwner: "2000922.xyz",
         tagline: "构建系统化的电商知识体系",
         socialLinks: [
             { text: "GitHub", url: "https://github.com/FXnadu", icon: "fa-brands fa-github" },
@@ -56,11 +56,11 @@ const config = {
         ]
     },
     meta: {
-        title: "EcomInsight.dev | 电商知识体系构建",
+        title: "2000922.xyz | 电商知识体系构建",
         description: "结构化、可迭代、长期沉淀的电商认知仓库。复盘电商运营策略、营销技巧与商业逻辑，形成可复用的知识框架。",
-        author: "DeepWhite",
+        author: "2000922.xyz",
         email: "contact@deepwhitex.dev",
-        url: "https://deepwhitex.dev",
+        url: "2000922.xyz",
         lang: "zh-CN"
     }
 };
