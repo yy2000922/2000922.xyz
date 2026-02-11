@@ -435,6 +435,18 @@ const updatePageStyles = (nextDoc) => {
     incoming.forEach((link) => document.head.appendChild(link.cloneNode(true)));
 };
 
+const executeScripts = (root) => {
+    if (!root) return;
+    root.querySelectorAll("script").forEach((script) => {
+        const replacement = document.createElement("script");
+        Array.from(script.attributes).forEach((attr) => {
+            replacement.setAttribute(attr.name, attr.value);
+        });
+        replacement.textContent = script.textContent || "";
+        script.replaceWith(replacement);
+    });
+};
+
 const swapContent = (nextDoc) => {
     const nextMain = nextDoc.querySelector("main");
     const currentMain = document.querySelector("main");
@@ -448,6 +460,7 @@ const swapContent = (nextDoc) => {
         document.body.removeAttribute("class");
     }
     updatePageStyles(nextDoc);
+    executeScripts(currentMain);
 };
 
 const reinitAfterSwap = () => {
@@ -458,23 +471,31 @@ const reinitAfterSwap = () => {
 };
 
 const loadPage = async (url, pushState = true) => {
-    const response = await fetch(url, { headers: { "X-Requested-With": "pjax" } });
-    if (!response.ok) {
+    try {
+        const response = await fetch(url, { headers: { "X-Requested-With": "pjax" } });
+        if (!response.ok) {
+            window.location.href = url;
+            return;
+        }
+        const html = await response.text();
+        const parser = new DOMParser();
+        const nextDoc = parser.parseFromString(html, "text/html");
+        swapContent(nextDoc);
+        if (pushState) {
+            window.history.pushState({ url }, "", url);
+        }
+        window.scrollTo({ top: 0, behavior: "auto" });
+        reinitAfterSwap();
+    } catch (error) {
+        console.warn("[pjax] navigation failed, fallback to full reload:", error);
         window.location.href = url;
-        return;
     }
-    const html = await response.text();
-    const parser = new DOMParser();
-    const nextDoc = parser.parseFromString(html, "text/html");
-    swapContent(nextDoc);
-    if (pushState) {
-        window.history.pushState({ url }, "", url);
-    }
-    window.scrollTo({ top: 0, behavior: "instant" });
-    reinitAfterSwap();
 };
 
 const handleLinkClick = (event) => {
+    if (event.defaultPrevented) return;
+    if (event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const link = event.target.closest(PJAX_SELECTOR);
     if (!shouldHandleLink(link)) return;
     event.preventDefault();

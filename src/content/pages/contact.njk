@@ -45,7 +45,7 @@ status: limited # 在这里修改: open, busy, limited, closed
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    function initContactPage() {
         // Simple obfuscation to prevent basic scrapers
         // 简单的混淆以防止基本爬虫
         const e_u = 'deepwhite86';
@@ -66,5 +66,11 @@ status: limited # 在这里修改: open, busy, limited, closed
         const qq = '1703452231';
         const qqEl = document.getElementById('contact-qq');
         if(qqEl) qqEl.innerText = qq;
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initContactPage, { once: true });
+    } else {
+        initContactPage();
+    }
 </script>
