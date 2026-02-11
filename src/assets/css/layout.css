@@ -19,6 +19,12 @@
     pointer-events: none;
 }
 
+.site-nav.is-transparent {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border-bottom-color: transparent !important;
+}
+
 .logo {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.2rem;

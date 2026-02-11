@@ -218,49 +218,6 @@ function registerCollections(eleventyConfig) {
     return pages;
   });
 
-  eleventyConfig.addCollection("tagPages", (collectionApi) => {
-    const posts = getPostsFromContentDir(collectionApi);
-    const tags = {};
-    const pageSize = 20;
-    const pages = [];
-
-    posts.forEach((post) => {
-      if (post.data.tags) {
-        post.data.tags.forEach((tag) => {
-          if (tag === "posts") return;
-          if (!tags[tag]) tags[tag] = [];
-          tags[tag].push(post);
-        });
-      }
-    });
-
-    Object.keys(tags).forEach((tag) => {
-      const sortedPosts = tags[tag].sort((a, b) => b.date - a.date);
-      const totalPages = Math.max(1, Math.ceil(sortedPosts.length / pageSize));
-      const baseUrl = `/tags/${tag}/`;
-
-      for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-        const start = (pageNumber - 1) * pageSize;
-        const end = start + pageSize;
-        const pagePosts = sortedPosts.slice(start, end);
-        const url = pageNumber === 1 ? baseUrl : `${baseUrl}page/${pageNumber}/`;
-
-        pages.push({
-          tag: tag,
-          title: tag,
-          url: url,
-          baseUrl: baseUrl,
-          pageNumber: pageNumber,
-          totalPages: totalPages,
-          posts: pagePosts,
-          count: sortedPosts.length
-        });
-      }
-    });
-
-    return pages;
-  });
-
   eleventyConfig.addCollection("folderGroups", (collectionApi) => {
     const folders = {};
     const posts = getPostsFromContentDir(collectionApi);

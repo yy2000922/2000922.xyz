@@ -40,7 +40,6 @@ const config = {
         main: [
             { text: "首页", url: "/" },
             { text: "知识库", url: "/categories/" },
-            { text: "标签", url: "/tags/" },
             // { text: "实战案例", url: "/updates/" },
             { text: "最近更新", url: "/records/" },
             { text: "方法论", url: "/services/" },

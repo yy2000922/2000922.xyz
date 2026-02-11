@@ -20,6 +20,7 @@
     --glass-bg: rgba(5, 5, 5, 0.9);
     --glass-border: rgba(255, 255, 255, 0.15);
     --page-grid-line: rgba(255, 255, 255, 0.08);
+    --post-reading-grid-line: rgba(255, 255, 255, 0.028);
     --hover-bg: rgba(255, 255, 255, 0.1);
     --nav-bg: rgba(5, 5, 5, 0.95);
 
@@ -62,6 +63,7 @@
     --glass-bg: rgba(255, 255, 255, 0.9);
     --glass-border: rgba(0, 0, 0, 0.06);
     --page-grid-line: rgba(0, 0, 0, 0.035);
+    --post-reading-grid-line: rgba(0, 0, 0, 0.015);
     --hover-bg: rgba(0, 0, 0, 0.04);
     --nav-bg: rgba(249, 250, 251, 0.95);
     
@@ -108,8 +110,8 @@ body {
     /* transition: background-color 0.3s ease, color 0.3s ease; -- Removed, handled by .theme-transition */
 }
 
-/* 仅非首页使用的方格背景 */
-body:not(.home-page)::before {
+/* 仅非首页且非禁用页使用的方格背景 */
+body:not(.home-page):not(.no-grid-page)::before {
     content: "";
     position: fixed;
     top: 0;
@@ -125,6 +127,49 @@ body:not(.home-page)::before {
     mask-image: none;
     -webkit-mask-image: none;
     pointer-events: none;
+}
+
+/* 列表页：仅在标题区域显示方格并向下渐隐 */
+body.no-grid-page .site-main {
+    position: relative;
+    isolation: isolate;
+}
+
+body.no-grid-page .site-main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: min(46vh, 420px);
+    background-image:
+        linear-gradient(var(--page-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--page-grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: center top;
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.85) 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.85) 55%, transparent 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 分类页：方格更早在侧栏附近衰减，避免干扰列表阅读 */
+body.categories-page .site-main::before {
+    height: min(30vh, 300px);
+    mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.78) 38%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.78) 38%, transparent 100%);
+}
+
+/* 文章页：沿用同一背景层，延展到正文并保持极淡 */
+body.post-page .site-main::before {
+    height: 100%;
+    background-image:
+        linear-gradient(var(--post-reading-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--post-reading-grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: center top;
+    mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 80px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 80px), transparent 100%);
 }
 
 /* Global Smooth Theme Transition */

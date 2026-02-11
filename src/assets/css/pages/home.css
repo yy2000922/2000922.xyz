@@ -19,13 +19,6 @@ body.home-page::before {
     pointer-events: none;
 }
 
-/* 首页顶部导航栏透明适配 */
-.site-nav.is-transparent {
-    background: transparent !important;
-    backdrop-filter: none !important;
-    border-bottom-color: transparent !important;
-}
-
 /* 首页板块标题样式（原 components.css 迁移并调整） */
 .section-header {
     margin-bottom: 10px; /* 原为 40px */

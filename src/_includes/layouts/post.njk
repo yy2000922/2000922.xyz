@@ -1,5 +1,6 @@
 ---
 layout: layouts/base.njk
+bodyClass: no-grid-page post-page
 pageStyles:
   - /assets/css/pages/post.css
 ---
@@ -12,15 +13,6 @@ pageStyles:
             <a href="/categories/{{ category }}/" style="margin-right: 15px; color: var(--accent); text-decoration: none; font-weight: 500;">{{ category }}</a>
             {% endif %}
             <time datetime="{{ date | htmlDateString }}">{{ date | readableDate }}</time>
-            {% if tags %}
-            <div class="post-tags">
-                {% for tag in tags %}
-                    {% if tag != "posts" %}
-                        <span class="post-tag" style="--tag-hue: {{ tag | stringToHue }};">#{{ tag }}</span>
-                    {% endif %}
-                {% endfor %}
-            </div>
-            {% endif %}
         </div>
     </header>
 

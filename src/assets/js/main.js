@@ -78,33 +78,44 @@ const initPostActions = () => {
     };
 };
 
-const initPostHeaderVisibility = () => {
-    const postContainer = document.querySelector(".post-container");
-    if (!postContainer) {
-        return () => {};
-    }
-
+const initNavVisibility = () => {
     const siteNav = document.querySelector(".site-nav");
     if (!siteNav) {
-        return;
+        return () => {};
     }
 
     let lastScrollY = window.scrollY;
     let ticking = false;
-    const minScroll = 80;
     const delta = 6;
+    let upwardDistance = 0;
+    let navHeight = siteNav.offsetHeight || 80;
+
+    const recalcNavHeight = () => {
+        navHeight = siteNav.offsetHeight || 80;
+    };
+
+    const getShowThreshold = () => Math.max(36, Math.round(navHeight * 0.35));
 
     const updateVisibility = () => {
         const currentScrollY = window.scrollY;
-        const scrollingDown = currentScrollY > lastScrollY + delta;
-        const scrollingUp = currentScrollY < lastScrollY - delta;
+        const diff = currentScrollY - lastScrollY;
+        const scrollingDown = diff > delta;
+        const scrollingUp = diff < -delta;
+        const hideThreshold = navHeight;
+        const showThreshold = getShowThreshold();
 
-        if (currentScrollY <= minScroll) {
+        if (currentScrollY <= hideThreshold) {
             siteNav.classList.remove("is-hidden");
+            upwardDistance = 0;
         } else if (scrollingDown) {
             siteNav.classList.add("is-hidden");
+            upwardDistance = 0;
         } else if (scrollingUp) {
-            siteNav.classList.remove("is-hidden");
+            upwardDistance += -diff;
+            if (!siteNav.classList.contains("is-hidden") || upwardDistance >= showThreshold) {
+                siteNav.classList.remove("is-hidden");
+                upwardDistance = 0;
+            }
         }
 
         lastScrollY = currentScrollY;
@@ -118,18 +129,20 @@ const initPostHeaderVisibility = () => {
         }
     };
 
+    recalcNavHeight();
     updateVisibility();
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", recalcNavHeight);
     return () => {
         window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", recalcNavHeight);
     };
 };
 
-const initHomeNavStyle = () => {
-    const heroSection = document.querySelector(".hero-section");
+const initNavTransparency = () => {
     const siteNav = document.querySelector(".site-nav");
     
-    if (!heroSection || !siteNav) {
+    if (!siteNav) {
         return () => {};
     }
 
@@ -386,8 +399,8 @@ const initPage = () => {
     }
     removeAnimationArtifacts();
     pageCleanups.push(initPostActions());
-    pageCleanups.push(initPostHeaderVisibility());
-    pageCleanups.push(initHomeNavStyle());
+    pageCleanups.push(initNavVisibility());
+    pageCleanups.push(initNavTransparency());
     pageCleanups.push(initGridDots());
 };
 

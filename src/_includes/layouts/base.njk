@@ -6,7 +6,7 @@
 <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
     {% include "partials/site-header.njk" %}
 
-    <main>
+    <main class="site-main">
         {{ content | safe }}
     </main>
 
