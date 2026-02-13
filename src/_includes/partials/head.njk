@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="/assets/css/components.css?v=20260211-1">
     <script>
         (function() {
+            const configuredDefaultTheme = "{{ siteConfig.theme.default | default('light') }}";
+            const defaultTheme = configuredDefaultTheme === "dark" ? "dark" : "light";
             const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
+            const initialTheme = savedTheme === "light" || savedTheme === "dark"
+                ? savedTheme
+                : defaultTheme;
+            document.documentElement.setAttribute("data-theme", initialTheme);
         })();
     </script>
     {% if pageStyles %}

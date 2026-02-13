@@ -44,6 +44,12 @@ const config = {
         lang: "zh-CN"
     },
 
+    // 主题设置
+    theme: {
+        // 默认主题：可选 "light" 或 "dark"
+        default: "light"
+    },
+
     // 全站分页参数
     pagination: {
         // 归档页每页数量
