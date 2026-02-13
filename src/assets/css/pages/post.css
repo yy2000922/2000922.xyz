@@ -146,7 +146,7 @@
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;
-    color: color-mix(in srgb, var(--text-secondary) 54%, transparent);
+    color: color-mix(in srgb, var(--text-secondary) 44%, transparent);
     width: 11px;
     height: 3px;
     border-radius: 999px;
@@ -501,7 +501,7 @@
 }
 
 [data-theme="dark"] .post-toc:not(:hover) .post-toc-link::before {
-    color: rgba(203, 213, 225, 0.46);
+    color: rgba(203, 213, 225, 0.34);
 }
 
 [data-theme="dark"] .post-content p,
