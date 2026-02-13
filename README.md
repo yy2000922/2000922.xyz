@@ -3,8 +3,8 @@
 这是一个基于 Eleventy 的内容模板。
 
 对普通用户来说，日常只需要改两处：
-- `/Users/warmwhite/Documents/deepwhitex-dev/src/content/posts/`：写文章
-- `/Users/warmwhite/Documents/deepwhitex-dev/src/content/settings/`：改站点文案和分类简介
+- `/src/content/posts/`：写文章
+- `/src/content/settings/`：改站点文案和分类简介
 
 ## 用户只需要做什么
 
@@ -15,7 +15,7 @@
 
 ## 如何写文章
 
-在 `/Users/warmwhite/Documents/deepwhitex-dev/src/content/posts/` 下新建 `.md` 文件。
+在 `/src/content/posts/` 下新建 `.md` 文件。
 
 示例：
 
@@ -24,10 +24,9 @@
 title: "你的文章标题"
 category: "市场调研基础"
 description: "这篇文章的摘要"
-# 可选：tags, date, categoryOrder
+# 可选： categoryOrder
 ---
 
-这里写正文，使用 Markdown 即可。
 ```
 
 字段说明：
@@ -40,7 +39,7 @@ description: "这篇文章的摘要"
 ## 如何设置分类简介
 
 分类简介在：
-- `/Users/warmwhite/Documents/deepwhitex-dev/src/content/settings/categoryDescriptions.json`
+- `/src/content/settings/categoryDescriptions.json`
 
 格式示例：
 
@@ -54,9 +53,7 @@ description: "这篇文章的摘要"
 }
 ```
 
-默认情况下，`npm run build` 会自动执行一次分类同步（等价于先跑 `npm run sync-meta`）。
-
-你也可以单独手动执行：
+如果新增了分类，先执行：
 
 ```bash
 npm run sync-meta
@@ -67,7 +64,7 @@ npm run sync-meta
 ## 站点基础文案在哪里改
 
 文件：
-- `/Users/warmwhite/Documents/deepwhitex-dev/src/content/settings/siteConfig.js`
+- `/src/content/settings/siteConfig.js`
 
 常改区域：
 - `brand`：站点名称
@@ -96,4 +93,4 @@ npm start
 npm run build
 ```
 
-输出目录：`/Users/warmwhite/Documents/deepwhitex-dev/_site/`
+输出目录：`/_site/`

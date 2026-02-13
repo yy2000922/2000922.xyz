@@ -1,9 +1,8 @@
 ---
 title: "系统测试分页样例 01"
-date: 2026-01-01
 description: "用于分页测试的系统测试文章 01。"
-tags: ["测试", "分页"]
 category: "系统测试"
+categoryOrder: 1
 layout: layouts/post.njk
 ---
 
