@@ -62,6 +62,9 @@
     },
     "test": {
       "description": "暂无简介"
+    },
+    "testcategory": {
+      "description": "test----------简介"
     }
   }
 }
