@@ -194,8 +194,7 @@
     left: -1rem;
     z-index: 0;
     transform: translateY(0);
-    opacity: 0;
-    animation: slideUpBackground 1.2s var(--services-easing) forwards;
+    opacity: 1;
     pointer-events: none;
     white-space: nowrap;
 }
@@ -208,8 +207,7 @@
     color: var(--text-primary);
     z-index: 2;
     padding-left: 0.5rem;
-    opacity: 0;
-    animation: slideUp 1s var(--services-easing) 0.2s forwards;
+    opacity: 1;
     letter-spacing: -0.02em;
     mix-blend-mode: normal;
     text-shadow: 20px 20px 40px var(--bg-color);
@@ -220,8 +218,7 @@
     justify-content: flex-start;
     margin-top: 2rem;
     padding-left: 0.5rem;
-    opacity: 0;
-    animation: fadeIn 1s var(--services-easing) 0.3s forwards;
+    opacity: 1;
 }
 
 .services-page-container .services-header p {
@@ -243,14 +240,8 @@
     padding: 2.5rem 0;
     border-top: 1px solid transparent;
     transition: border-color 0.5s var(--services-easing);
-    opacity: 0;
-    animation: slideUp 0.8s var(--services-easing) forwards;
+    opacity: 1;
 }
-
-.services-page-container .service-item:nth-child(1) { animation-delay: 0.4s; }
-.services-page-container .service-item:nth-child(2) { animation-delay: 0.5s; }
-.services-page-container .service-item:nth-child(3) { animation-delay: 0.6s; }
-.services-page-container .service-item:nth-child(4) { animation-delay: 0.7s; }
 
 .services-page-container .service-content-grid {
     display: grid;
@@ -408,8 +399,7 @@
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 5rem;
-    opacity: 0;
-    animation: fadeIn 1s var(--services-easing) 1s forwards;
+    opacity: 1;
     position: relative;
 }
 

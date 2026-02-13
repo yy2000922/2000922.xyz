@@ -641,11 +641,49 @@ const shouldHandleLink = (link) => {
     }
 };
 
-const updatePageStyles = (nextDoc) => {
-    const existing = document.head.querySelectorAll("link[rel='stylesheet'][data-page-style]");
-    existing.forEach((link) => link.remove());
-    const incoming = nextDoc.head.querySelectorAll("link[rel='stylesheet'][data-page-style]");
-    incoming.forEach((link) => document.head.appendChild(link.cloneNode(true)));
+const waitForStylesheet = (link) =>
+    new Promise((resolve) => {
+        if (link.sheet) {
+            resolve();
+            return;
+        }
+        const done = () => {
+            link.removeEventListener("load", done);
+            link.removeEventListener("error", done);
+            resolve();
+        };
+        link.addEventListener("load", done, { once: true });
+        link.addEventListener("error", done, { once: true });
+    });
+
+const getAbsoluteHref = (link) => new URL(link.getAttribute("href"), window.location.href).href;
+
+const updatePageStyles = async (nextDoc) => {
+    const existing = Array.from(document.head.querySelectorAll("link[rel='stylesheet'][data-page-style]"));
+    const existingByHref = new Map(existing.map((link) => [link.href, link]));
+    const incoming = Array.from(nextDoc.head.querySelectorAll("link[rel='stylesheet'][data-page-style]"));
+    const incomingHrefs = new Set(incoming.map((link) => getAbsoluteHref(link)));
+
+    const loadingTasks = [];
+    incoming.forEach((link) => {
+        const href = getAbsoluteHref(link);
+        if (existingByHref.has(href)) {
+            return;
+        }
+        const clone = link.cloneNode(true);
+        document.head.appendChild(clone);
+        loadingTasks.push(waitForStylesheet(clone));
+    });
+
+    if (loadingTasks.length) {
+        await Promise.all(loadingTasks);
+    }
+
+    existing.forEach((link) => {
+        if (!incomingHrefs.has(link.href)) {
+            link.remove();
+        }
+    });
 };
 
 const executeScripts = (root) => {
@@ -672,7 +710,6 @@ const swapContent = (nextDoc) => {
     } else {
         document.body.removeAttribute("class");
     }
-    updatePageStyles(nextDoc);
     executeScripts(currentMain);
 };
 
@@ -693,6 +730,7 @@ const loadPage = async (url, pushState = true) => {
         const html = await response.text();
         const parser = new DOMParser();
         const nextDoc = parser.parseFromString(html, "text/html");
+        await updatePageStyles(nextDoc);
         swapContent(nextDoc);
         if (pushState) {
             window.history.pushState({ url }, "", url);
